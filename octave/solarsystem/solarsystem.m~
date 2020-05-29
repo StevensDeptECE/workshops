@@ -1,0 +1,4 @@
+function solarsystem(systemfile)
+  sys = csvread(systemfile);
+endfunction
+  
