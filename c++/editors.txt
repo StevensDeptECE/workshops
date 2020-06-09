@@ -1,0 +1,19 @@
+Sublime Text 3
+Atom
+Notepad++
+Emacs				ancient, powerful, cryptic
+vi/vim				ancient unix, everywhere
+Nano
+gedit
+Notepad??? Not a good idea
+
+
+None of these give you debugging...
+we can debug with gdb (gnu debugger)
+
+The following are IDE (Integrated Development Environment)
+vscode Microsoft
+CLion  (JetBrains, commercial but as a student you can get a free license)
+qtcreator (Qt)
+Visual Studio
+

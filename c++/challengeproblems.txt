@@ -1,0 +1,5 @@
+1. read in your age in years. Print out your age in seconds.
+   try to find the point at which your answer overflows.
+2. given quadratic equation a = 2, b = 4, c= 1
+   , compute the roots and print out to 10 digits accuracy.
+3. a = 1, b = 2.00000001   c = 1
