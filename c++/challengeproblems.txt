@@ -2,4 +2,9 @@
    try to find the point at which your answer overflows.
 2. given quadratic equation a = 2, b = 4, c= 1
    , compute the roots and print out to 10 digits accuracy.
-3. a = 1, b = 2.00000001   c = 1
+   a = 1, b = 2.00000001   c = 1
+3. compute n!
+   const int n = 10;
+
+   at what point does the answer go wrong for int? uint64_t?  double?
+4. sum 1/i for i from 1 to 100:   1.0/1 + 1.0/2 + 1.0/3 + ... + 1.0/100 = 5.18..
