@@ -1,0 +1,5 @@
+*~  # ignore emacs backup files
+*.o # ignore object files
+*.exe # ignore windows executables
+
+#unfortunately on Unix, the filename does not tell you i'ts executable.
