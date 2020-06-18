@@ -14,3 +14,18 @@
    this number may not mean anything to you. Instead print sqrt(sum*6)
 
    Try this forward and backward, which is more accurate?
+
+6. Write a class Vec3d to make the following main work:
+
+int main() {
+  const Vec3d a(1.0, 2.0, 3.0);
+  const Vec3d b(2.0, 1.5, -1.2);
+  const Vec3d c = a + b;
+  const Vec3d d = a * 2;
+  const Vec3d e = -a;
+  cout << a << '\n';
+  cout << b << '\n';
+  cout << c << '\n';
+  cout << d << '\n';
+  cout << e << '\n';
+}
