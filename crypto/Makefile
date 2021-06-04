@@ -1,0 +1,3 @@
+aes_decryption: aes_decryption.cc
+	g++ -g aes_decryption.cc -lssl -lcrypto
+
