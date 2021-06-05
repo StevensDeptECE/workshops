@@ -1,0 +1,8 @@
+a.out
+*~
+*.o
+*.a
+*.so
+aes_decryption
+mycode
+mycode2
