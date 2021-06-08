@@ -1,6 +1,0 @@
-CXX	:= g++ -g 
-server: server.cc
-	$(CXX) $< -o $@
-
-client: client.cc
-	$(CXX) $< -o $@
