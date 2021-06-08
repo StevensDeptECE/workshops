@@ -4,15 +4,15 @@
 #include <iostream>
 using namespace std;
 
-void handleOpenSSLErrors(void)
-{
+void handleOpenSSLErrors() {
   ERR_print_errors_fp(stderr);
   abort();
 }
 
-string decrypt(unsigned char *ciphertext, int ciphertext_len, unsigned char *key,
-  unsigned char *iv ) {
-
+string decrypt(unsigned char *ciphertext,
+							 int ciphertext_len,
+							 unsigned char *key,
+							 unsigned char *iv ) {
   EVP_CIPHER_CTX *ctx;
   unsigned char *plaintexts;
   int len;
@@ -63,7 +63,6 @@ void initAES(const string& pass, unsigned char* salt, unsigned char* key, unsign
   bzero(key,sizeof(key));
   bzero(iv,sizeof(iv));
 
-	// they are selecting here which algorithm to execute
   EVP_BytesToKey(EVP_aes_256_cbc(), EVP_sha1(), salt, (unsigned char*)pass.c_str(), pass.length(), 1, key, iv);
 }
 
@@ -97,23 +96,16 @@ int main () {
   // This is the string Hello, World! encrypted using aes-256-cbc with the
   // pasword 12345
   char* ciphertext_base64 = (char*) "U2FsdGVkX1/E/yWBwY9nW96pYIv2nouyJIFF9BtVaKA=\n";
-	// base 64 = each letter is 6 bits  a-zA-Z0-9+/
-	
   int decryptedtext_len, ciphertext_len;
   size_t cipher_len;
   unsigned char* ciphertext;
   unsigned char salt[8];
   ERR_load_crypto_strings();
-
-	// read in base64 and allocate memory,
-	//leaving cipherText pointing to new memory containing encrypted data
   Base64Decode(ciphertext_base64, &ciphertext, &cipher_len);
- 
 
   unsigned char key[32];
   unsigned char iv[32];
 
-	// in case the first 8 bytes of your file happen to be "Salted__"
   if (strncmp((const char*)ciphertext,"Salted__",8) == 0) {
     memcpy(salt,&ciphertext[8],8);
     ciphertext += 16;
