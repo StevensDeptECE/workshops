@@ -17,8 +17,19 @@ template<> struct DeleterOf<BIO_METHOD> { void operator()(BIO_METHOD *p) const {
 
 template<class OpenSSLType>
 using UniquePtr = std::unique_ptr<OpenSSLType, DeleterOf<OpenSSLType>>;
+#if 0
+	void review of memory leak rules() {
+		int* a = new int[100];
 
+		delete [] a;
+
+		int*p = malloc(1024);
+
+		free(p);
+	}
+#endif
 class StringBIO {
+private:
     std::string str_;
     my::UniquePtr<BIO_METHOD> methods_;
     my::UniquePtr<BIO> bio_;
