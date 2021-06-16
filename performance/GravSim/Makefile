@@ -1,5 +1,5 @@
 DEBUG	:= -g
-OPT	:= -O2
+OPT	:= #-O2
 CXX	:= g++ $(DEBUG) $(OPT)
 gravsim: GravSim.o Body.o Vec3d.o main.o
 	$(CXX) $^ -o $@ # link all .o into a single executable

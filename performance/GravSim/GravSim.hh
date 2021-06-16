@@ -23,6 +23,7 @@ public:
   Body(const char name[16],
        const char orbits[16],
        double m,
+       double r,
        double x, double y, double z,
        double vx, double vy, double vz);
   friend std::ostream& operator <<(std::ostream& s, Body b);
@@ -38,6 +39,10 @@ public:
   GravSim(const char filename[]);
   void timestep(double dt);
   void forward(uint32_t n, double dt);
+  uint32_t getNumBodies() const { return bodies.size(); }
+  Body* getBody(int i) const {
+    return bodies[i];
+  }
   friend std::ostream& operator <<(std::ostream& s, GravSim sim);
 };
 
