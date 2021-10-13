@@ -1,0 +1,30 @@
+1. go out and find code that exercises the part of the API you want to learn
+
+2. don't take the first one you find, or only one. Each one may have flaws
+
+3. it's ok to read code, but also take in an example and write your own. Try to clean it up. If you can write it and get it to build and run, you have learned a lot more than just reading the code
+
+4. Put the URL of all the stuff you looked at in a document?
+Don't go crazy with this. I'm not interested in documentation.
+
+4b. Download the best code to your repo. You can put it all in a directory
+examples/ keep each example in a separate directory
+examples/aes256dov  examples/aes256xyz
+
+5. Each person's code goes in a makefile with comments reminding you how to make
+this work. Tell us what needs to be installed (like libssl-dev for example)
+
+6. Create a README.md
+
+7. Make Repo class compile. It doesn't have to do anything yet, but build a test file that compiles it.
+
+int main() {
+  Repository r("test.repo", "mypassword"); // read the repo into ram and unlock using my password.
+  //note: in reality we want to enter the password, a hardcoded password is idiocy
+
+  r.addSite("chase.com"); // automatically generate public/private key, store in repo
+
+  string s = r.getPublicKey("chase.com");
+
+  r.save();
+}
