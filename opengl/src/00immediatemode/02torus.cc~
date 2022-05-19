@@ -1,0 +1,145 @@
+#include <glheaders.hh>
+// This is a simple introductory program; its main window contains a static
+// picture of a torus.  The program illustrates viewing by choosing a camera
+// setup with gluLookAt(), which is conceptually simpler than transforming
+// objects to move into a predefined view volume.
+
+#ifdef __APPLE_CC__
+#include <GLUT/glut.h>
+#else
+#include <GL/glut.h>
+#endif
+
+// Clears the window and draws the torus.
+void display() {
+
+  glClear(GL_COLOR_BUFFER_BIT);
+
+  // Draw a white torus of outer radius 3, inner radius 0.5 with 15 stacks
+  // and 30 slices.
+  glColor3f(1.0, 1.0, 1.0);
+  glutWireTorus(0.5, 3, 15, 30);
+
+  // Draw a red x-axis, a green y-axis, and a blue z-axis.  Each of the
+  // axes are ten units long.
+  glBegin(GL_LINES);
+    glColor3f(1, 0, 0); glVertex3f(0, 0, 0); glVertex3f(10, 0, 0);
+    glColor3f(0, 1, 0); glVertex3f(0, 0, 0); glVertex3f(0, 10, 0);
+    glColor3f(0, 0, 1); glVertex3f(0, 0, 0); glVertex3f(0, 0, 10);
+  glEnd();
+
+  glFlush();
+}
+
+// Sets up global attributes like clear color and drawing color, and sets up
+// the desired projection and modelview matrices.
+void init() {
+
+  // Set the current clear color to black and the current drawing color to
+  // white.
+  glClearColor(0.0, 0.0, 0.0, 1.0);
+  glColor3f(1.0, 1.0, 1.0);
+
+  // Set the camera lens to have a 60 degree (vertical) field of view, an
+  // aspect ratio of 4/3, and have everything closer than 1 unit to the
+  // camera and greater than 40 units distant clipped away.
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+  gluPerspective(60.0, 4.0/3.0, 1, 40);
+
+  // Position camera at (4, 6, 5) looking at (0, 0, 0) with the vector
+  // <0, 1, 0> pointing upward.
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
+  gluLookAt(4, 6, 5, 0, 0, 0, 0, 1, 0);
+}
+
+// Initializes GLUT, the display mode, and main window; registers callbacks;
+// does application initialization; enters the main event loop.
+int main(int argc, char** argv) {
+  glutInit(&argc, argv);
+  glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+  glutInitWindowPosition(80, 80);
+  glutInitWindowSize(800, 600);
+  glutCreateWindow("A Simple Torus");
+  glutDisplayFunc(display);
+  init();
+  glutMainLoop();
+}
+
+Sierpinski2D
+
+    Draws 100000 points of a Sierpinski Gasket.
+    Draws with GL_POINTS.
+    Illustrates poor programming practice: the display callback contains long-running code. We get away with it here because we only have to generate 100000 points. The program will appear to hang if you wanted to draw, say, twenty million points.
+    Ilustrates some C++, namely a struct with a member function.
+    Note that the glFlush call is made after all 100000 points have been drawn, not after each point.
+
+sierpinski2d.cpp
+
+// This program generates a Sierpinski gasket with 10000 points.
+
+#ifdef __APPLE_CC__
+#include <GLUT/glut.h>
+#else
+#include <GL/glut.h>
+#endif
+#include <cstdlib>
+
+// A simple two-dimensional point class to make life easy.  It allows you to
+// reference points with x and y coordinates instead of array indices) and
+// encapsulates a midpoint function.
+struct Point {
+  GLfloat x, y;
+  Point(GLfloat x = 0, GLfloat y = 0): x(x), y(y) {}
+  Point midpoint(Point p) {return Point((x + p.x) / 2.0, (y + p.y) / 2.0);}
+};
+
+// Draws a Sierpinski triangle with a fixed number of points. (Note that the
+// number of points is kept fairly small because a display callback should
+// NEVER run for too long.
+void display() {
+
+  glClear(GL_COLOR_BUFFER_BIT);
+
+  static Point vertices[] = {Point(0, 0), Point(200, 500), Point(500, 0)};
+
+  // Compute and plot 100000 new points, starting (arbitrarily) with one of
+  // the vertices. Each point is halfway between the previous point and a
+  // randomly chosen vertex.
+  static Point p = vertices[0];
+  glBegin(GL_POINTS);
+  for (int k = 0; k < 100000; k++) {
+    p = p.midpoint(vertices[rand() % 3]);
+    glVertex2f(p.x, p.y);
+  }
+  glEnd();
+  glFlush();
+}
+
+// Performs application-specific initialization. Sets colors and sets up a
+// simple orthographic projection.
+void init() {
+
+  // Set a deep purple background and draw in a greenish yellow.
+  glClearColor(0.25, 0.0, 0.2, 1.0);
+  glColor3f(0.6, 1.0, 0.0);
+
+  // Set up the viewing volume: 500 x 500 x 1 window with origin lower left.
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+  glOrtho(0.0, 500.0, 0.0, 500.0, 0.0, 1.0);
+}
+
+// Initializes GLUT, the display mode, and main window; registers callbacks;
+// does application initialization; enters the main event loop.
+int main(int argc, char** argv) {
+  glutInit(&argc, argv);
+  glutInitDisplayMode (GLUT_SINGLE | GLUT_RGB);
+  glutInitWindowSize(500, 500);
+  glutInitWindowPosition(40, 40);
+  glutCreateWindow("Sierpinski Triangle");
+  glutDisplayFunc(display);
+  init();
+  glutMainLoop();
+}

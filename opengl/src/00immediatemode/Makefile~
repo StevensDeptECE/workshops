@@ -1,0 +1,19 @@
+COMP	:= g++ -g -I/usr/include/GL
+LIBS	:= -lGL -lglut #-lglu1-mesa
+
+all:00triangle 01tetrahedron 04sierpinski #02torus 03colorcube_flyby
+
+00triangle: 00triangle.cc
+	$(COMP) $< -o $@ $(LIBS)
+
+01tetrahedron: 01tetrahedron.cc
+	$(COMP) $< -o $@ $(LIBS)
+
+02torus: 02torus.cc
+	$(COMP) $< -o $@ $(LIBS)
+
+03colorcube_flyby: 03colorcube_flyby.cc
+	$(COMP) $< -o $@ $(LIBS)
+
+04sierpinski: 04sierpinski.cc
+	$(COMP) $< -o $@ $(LIBS)
