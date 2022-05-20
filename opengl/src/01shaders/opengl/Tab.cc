@@ -1,11 +1,15 @@
 #include "opengl/Tab.hh"
 
+#include <glad/glad.h>
+
+// GLFW needs to be included after glad. Fixing for entire compile.
+#include <GLFW/glfw3.h>
+
 #include <cstring>
 #include <iostream>
 
 #include "opengl/GLWin.hh"
 #include "opengl/Member.hh"
-#include "opengl/MultiText.hh"
 #include "opengl/Style.hh"
 #include "opengl/StyledMultiShape2D.hh"
 //#include <time.h>

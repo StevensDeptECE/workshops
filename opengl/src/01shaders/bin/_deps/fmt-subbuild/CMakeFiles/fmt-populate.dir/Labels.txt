@@ -1,0 +1,14 @@
+# Target labels
+ fmt-populate
+# Source files and their labels
+/home/dkruger/git/course/workshops/opengl/src/01shaders/bin/_deps/fmt-subbuild/CMakeFiles/fmt-populate
+/home/dkruger/git/course/workshops/opengl/src/01shaders/bin/_deps/fmt-subbuild/CMakeFiles/fmt-populate.rule
+/home/dkruger/git/course/workshops/opengl/src/01shaders/bin/_deps/fmt-subbuild/CMakeFiles/fmt-populate-complete.rule
+/home/dkruger/git/course/workshops/opengl/src/01shaders/bin/_deps/fmt-subbuild/fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-install.rule
+/home/dkruger/git/course/workshops/opengl/src/01shaders/bin/_deps/fmt-subbuild/fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-mkdir.rule
+/home/dkruger/git/course/workshops/opengl/src/01shaders/bin/_deps/fmt-subbuild/fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-download.rule
+/home/dkruger/git/course/workshops/opengl/src/01shaders/bin/_deps/fmt-subbuild/fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-update.rule
+/home/dkruger/git/course/workshops/opengl/src/01shaders/bin/_deps/fmt-subbuild/fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-patch.rule
+/home/dkruger/git/course/workshops/opengl/src/01shaders/bin/_deps/fmt-subbuild/fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-configure.rule
+/home/dkruger/git/course/workshops/opengl/src/01shaders/bin/_deps/fmt-subbuild/fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-build.rule
+/home/dkruger/git/course/workshops/opengl/src/01shaders/bin/_deps/fmt-subbuild/fmt-populate-prefix/src/fmt-populate-stamp/fmt-populate-test.rule

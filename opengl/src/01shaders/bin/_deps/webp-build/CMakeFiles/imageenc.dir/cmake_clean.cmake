@@ -1,0 +1,10 @@
+file(REMOVE_RECURSE
+  "CMakeFiles/imageenc.dir/imageio/image_enc.c.o"
+  "libimageenc.a"
+  "libimageenc.pdb"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang C)
+  include(CMakeFiles/imageenc.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()

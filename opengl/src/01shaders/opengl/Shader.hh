@@ -16,21 +16,35 @@
 class Shader {
  private:
   uint32_t progID;
-  uint32_t load(const char filename[], uint32_t shaderType,
+  uint32_t justCompile(const char sourceCode[],
+																 uint32_t shaderType,
+																 const char shaderTypeName[]);
+  uint32_t loadAndCompile(const char filename[], uint32_t shaderType,
                 const char shaderTypeName[]);
+
   static std::string shaderDir;
   static std::vector<Shader> shaders;
   static uint32_t format;
   void fastLoad(const char filename[]);
   void save(const char shaderName[]);
 
- public:
   Shader(const char shaderName[], const char vertexPath[],
-         const char fragmentPath[], const char geometryPath[] = nullptr);
+         const char fragmentPath[], const char geometryPath[] = nullptr, bool load = false);
 
+ public:
   static void setDir(const std::string &shaderDir) {
     Shader::shaderDir = shaderDir;
   }
+
+  static Shader loadCompileAndLink(const char shaderName[],
+																	const char vertexPath[],
+																	const char fragmentPath[],
+																	const char geometryPath[]);
+
+  static Shader compileAndLink(const char shaderName[],
+															 const char vertexPath[],
+															 const char fragmentPath[],
+															 const char geometryPath[]);
 
   static uint32_t load(const char shaderName[], const char vertRelPath[],
                        const char fragRelPath[],

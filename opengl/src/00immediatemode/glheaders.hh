@@ -34,7 +34,7 @@ typedef void (*reshape_callback)(GLint w, GLint h);
 typedef void (*display_callback)();
 
 void init();
-void init_app(int argc, char** argv, int x, int y, int w, int h, const char title[],
+inline void init_app(int argc, char** argv, int x, int y, int w, int h, const char title[],
 							reshape_callback reshape, display_callback display) {
   glutInit(&argc, argv);
   glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);

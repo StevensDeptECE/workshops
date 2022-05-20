@@ -88,12 +88,6 @@ class Canvas {
     }
   }
 
-  void process_input(Inputs* in, float dt) {
-    for (int i = 0; i < layers.size(); i++) {
-      layers[i]->process_input(in, dt);
-    }
-  }
-
   void update() {
     for (int i = 0; i < layers.size(); i++) {
       layers[i]->update();

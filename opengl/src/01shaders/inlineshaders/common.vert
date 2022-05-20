@@ -1,4 +1,4 @@
-R("
+R"'(
 #version 330
 layout (location = 0) in vec3 aPos;   // the position variable has attribute position 0
 
@@ -12,5 +12,5 @@ void main() {
 	gl_Position = projection*vec4(aPos, 1.0);
 	ourColor = solidColor; // set ourColor to the input color we got from the vertex data
 }
-);
+)'"
 

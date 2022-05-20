@@ -20,8 +20,8 @@
 // GLFW
 #include <GLFW/glfw3.h>
 
-#include "csp/IPV4Socket.hh"
-#include "csp/csp.hh"
+// #include "csp/IPV4Socket.hh"
+// #include "csp/csp.hh"
 #include "util/Prefs.hh"
 
 #ifdef _WIN32
@@ -33,8 +33,8 @@
 #include "opengl/Style.hh"
 #include "opengl/Tab.hh"
 #include "stb/stb_image_write.h"
-#include "xdl/XDLCompiler.hh"
-#include "xdl/std.hh"
+// #include "xdl/XDLCompiler.hh"
+// #include "xdl/std.hh"
 using namespace std;
 string GLWin::baseDir;
 
@@ -140,14 +140,14 @@ void GLWin::enableMouse() {
 
 // Static initializer for libraries
 void GLWin::classInit() {
-  XDLType::classInit();
-  Socket::classInit();
+  // XDLType::classInit();
+  // Socket::classInit();
 }
 
 // Static cleanup for libraries
 void GLWin::classCleanup() {
-  Socket::classCleanup();
-  XDLType::classCleanup();
+  // Socket::classCleanup();
+  // XDLType::classCleanup();
 }
 
 inline glm::vec4 uint2vec4(uint32_t color) {
@@ -487,14 +487,14 @@ Tab *GLWin::addTab() {
 // TODO: write this, also consider writing a remove function for DynArray
 void GLWin::removeTab() {}
 
-void GLWin::goToLink(const char ipaddr[], uint16_t port, uint32_t requestID) {
-  IPV4Socket s(ipaddr, port);
-  s.send(requestID);
-  Buffer &in = s.getIn();
-  XDLCompiler compiler("");
-  SymbolTable *st = new SymbolTable(&compiler);
-  const XDLType *metadata = XDLType::readMeta(&compiler, in);
-  Buffer out("client.txt", 32768);
+// void GLWin::goToLink(const char ipaddr[], uint16_t port, uint32_t requestID) {
+//   IPV4Socket s(ipaddr, port);
+//   s.send(requestID);
+//   Buffer &in = s.getIn();
+//   XDLCompiler compiler("");
+//   SymbolTable *st = new SymbolTable(&compiler);
+//   const XDLType *metadata = XDLType::readMeta(&compiler, in);
+//   Buffer out("client.txt", 32768);
 
-  metadata->display(in, out);
-}
+//   metadata->display(in, out);
+// }

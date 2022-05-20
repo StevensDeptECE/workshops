@@ -1,0 +1,1 @@
+/usr/bin/cc  -pthread -O3 -DNDEBUG   CMakeFiles/dwebp.dir/examples/dwebp.c.o  -o ../../dwebp  libexampleutil.a libimagedec.a libimageenc.a libwebpdemux.a /usr/lib/x86_64-linux-gnu/libpng.so /usr/lib/x86_64-linux-gnu/libz.so /usr/lib/x86_64-linux-gnu/libjpeg.so /usr/lib/x86_64-linux-gnu/libtiff.so libimageioutil.a libwebp.a -lpthread -lm 

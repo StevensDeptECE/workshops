@@ -10,11 +10,11 @@ using namespace std;
 
 // shaders included here
 const char commonVS[] =
-	#include "inlineshaders/common.vs"
+	#include "inlineshaders/common.vert"
 	;
 
 const char commonFS[] =
-	#include "inlineshaders/common.vs"
+	#include "inlineshaders/common.frag"
 ;
 
 // end of shaders section
@@ -23,10 +23,7 @@ vector<Shader> Shader::shaders;
 uint32_t Shader::format;
 string Shader::shaderDir;
 
-uint32_t Shader::compile(GLuint shaderType,
-                             const char shaderTypeName[]) {
-
- inline uint32_t Shader::compile(const char sourceCode[],
+ inline uint32_t Shader::justCompile(const char sourceCode[],
 																 GLuint shaderType,
 																 const char shaderTypeName[]) {
   uint32_t id = glCreateShader(shaderType);
@@ -45,7 +42,7 @@ uint32_t Shader::compile(GLuint shaderType,
   return id;
 }
 
- inline uint32_t Shader::load(const char filename[], GLuint shaderType,
+ inline uint32_t Shader::loadAndCompile(const char filename[], GLuint shaderType,
                              const char shaderTypeName[]) {
   ifstream shaderFile(filename);
   if (!shaderFile) throw "Failed to load shader";
@@ -55,7 +52,7 @@ uint32_t Shader::compile(GLuint shaderType,
   shaderFile.close();
 
   string shaderCode = shaderStream.str();
-	return compile(shaderCode, shaderType, shaderTypeName);
+	return justCompile(shaderCode.c_str(), shaderType, shaderTypeName);
 }
 
 
@@ -112,8 +109,8 @@ inline Shader::Shader(const char shaderName[],
   try {
     uint32_t vertexShaderID =
 			load ? 
-        loadAndCompile(vertexPath, GL_VERTEX_SHADER, "VERTEX");  // load the vertex shader
-		:   justCompile(vertexPath, GL_VERTEX_SHADER, "VERTEX");  // load the vertex shader
+        loadAndCompile(vertexPath, GL_VERTEX_SHADER, "VERTEX") : // load the vertex shader
+		   justCompile(vertexPath, GL_VERTEX_SHADER, "VERTEX");  // load the vertex shader
     uint32_t fragmentShaderID = load ?
 			loadAndCompile(fragmentPath, GL_FRAGMENT_SHADER, "FRAGMENT") :
 			justCompile(fragmentPath, GL_FRAGMENT_SHADER, "FRAGMENT");  // load the fragment shader
@@ -155,14 +152,14 @@ Shader Shader::loadCompileAndLink(const char shaderName[],
 																	const char vertexPath[],
 																	const char fragmentPath[],
 																	const char geometryPath[]) {
-	return Shader(shaderName, vertexPath, fragmentPath, geometry, true);
+	return Shader(shaderName, vertexPath, fragmentPath, geometryPath, true);
 }
 
  Shader Shader::compileAndLink(const char shaderName[],
 															 const char vertexPath[],
 															 const char fragmentPath[],
 															 const char geometryPath[]) {
-	return Shader(shaderName, vertexPath, fragmentPath, geometry, false);
+	return Shader(shaderName, vertexPath, fragmentPath, geometryPath, false);
 }
 
 Shader *Shader::useShader(uint32_t sh) {
@@ -178,7 +175,7 @@ uint32_t Shader::load(const char shaderName[], const char vertRelPath[],
   string fragPath = shaderDir + fragRelPath;
   //	string geomPath =
   // equivalent to push_back(Shader(...))
-  shaders.emplace_back(shaderName, vertPath.c_str(), fragPath.c_str(), nullptr);
+  shaders.push_back(Shader(shaderName, vertPath.c_str(), fragPath.c_str(), nullptr, true));
   return shaders.size() - 1;
 }
 

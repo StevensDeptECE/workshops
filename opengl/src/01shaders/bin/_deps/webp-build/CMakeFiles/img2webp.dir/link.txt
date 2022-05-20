@@ -1,0 +1,1 @@
+/usr/bin/cc  -pthread -O3 -DNDEBUG   CMakeFiles/img2webp.dir/examples/img2webp.c.o  -o ../../img2webp  libexampleutil.a libimagedec.a libimageioutil.a libwebp.a libwebpmux.a libwebpdemux.a /usr/lib/x86_64-linux-gnu/libpng.so /usr/lib/x86_64-linux-gnu/libz.so /usr/lib/x86_64-linux-gnu/libjpeg.so /usr/lib/x86_64-linux-gnu/libtiff.so libwebp.a -lpthread -lm 

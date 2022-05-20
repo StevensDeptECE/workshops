@@ -67,25 +67,27 @@ class Image : public Shape {
    *
    * @param filePath Path to the image to load.
    */
-  void addImage(const char filePath[]);
+  void setImage(const char filePath[]);
 
   /**
    * @brief OpenGL setup that will be called by GLWin to load the image.
    *
    */
-  void init();
+  void init() override;
 
   /**
    * @brief Renders the image to the screen, called by the parent tab
    *
    */
-  void render();
+  void render(glm::mat4& projection) override;
 
   /**
    * @brief If the image is to be modified, update may be written
    *
    */
-  void update();
+  void update() override;
 
-	void cleanup();
+	void cleanup() override;
+
+  void setupBuffers(float u0, float v0, float u1, float v1);
 };

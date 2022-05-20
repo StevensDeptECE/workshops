@@ -1,11 +1,13 @@
 #include "opengl/Image.hh"
 
 #include <string>
+#include <fstream>
 
 #include "glad/glad.h"
 #include "opengl/Canvas.hh"
 //#include "stb/stb_image.h"
 //#include "stb/stb_image_write.h"
+#include <glm/glm.hpp>
 #include "webp/decode.h"
 #include "util/Ex.hh"
 using namespace std;
@@ -45,11 +47,11 @@ inline void Image::setupBuffers(float u0, float v0, float u1, float v1) {
 
 bool readEntireFile(const char filename[], uint8_t** buf, uint32_t* len) {
   ifstream f(filename);
-	f.seek(0, std::ios::end);  // go to the end
+	f.seekg(0, std::ios::end);  // go to the end
 	uint32_t n = f.tellg();           // report location (this is the length)
 	*buf = new uint8_t[n];
 	f.seekg(0, std::ios::beg);
-	f.read(buf, n);
+	f.read((char*)*buf, n);
 	*len = n;
 	return true;
 }
@@ -68,16 +70,16 @@ inline void Image::setImage(const char filename[]) {
 	// Specify the desired output colorspace:
 	config.output.colorspace = MODE_BGRA;
 	// Have config.output point to an external buffer:
-	const uint8_t* data = new char[w*h]; //allocate memory
+  uint8_t* data = new uint8_t[w*h]; //allocate memory
 	if (data == nullptr)
-    throw Ex2(Errcode::IMAGE_LOAD, filePath);
+    throw Ex2(Errcode::IMAGE_LOAD, filename);
 	config.output.u.RGBA.rgba = data;
 	config.output.u.RGBA.stride = 0;// scanline_stride;
 	config.output.u.RGBA.size = w*h*4;
 	config.output.is_external_memory = 1;
 
 	if (WebPDecode(p, len, &config) == VP8_STATUS_OK)
-    throw Ex2(Errcode::IMAGE_LOAD, filePath);
+    throw Ex2(Errcode::IMAGE_LOAD, filename);
 	
 	// generate texture and bind it to current object
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, textureWidth, textureHeight, 0,
@@ -89,13 +91,13 @@ inline void Image::setImage(const char filename[]) {
 Image::Image(float x, float y, float width, float height,
 						 uint32_t textureID)
     : x(x), y(y), width(width), height(height), textureID(textureID) {
-  setupBuffers();
+  setupBuffers(0, 1, 0, 1);
 }
 
 Image::Image(float x, float y, float width, float height,
              const char filePath[])
     : x(x), y(y), width(width), height(height) {
-  setupBuffers();
+  setupBuffers(0, 1, 0, 1);
   setupTexture();
   setImage(filePath);
 }
@@ -129,15 +131,22 @@ void Image::render(glm::mat4& proj) {
   glEnableVertexAttribArray(1);
 
   Shader* s = Shader::useShader(GLWin::TEXTURE_SHADER);
-  s->setMat4("projection", *(parentCanvas->getProjection()));
+  s->setMat4("projection", proj);
   s->setInt("ourTexture", 0);
   glActiveTexture(GL_TEXTURE0);
   glBindTexture(GL_TEXTURE_2D, textureID);
 
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sbo);
-  glDrawElements(GL_TRIANGLES, vertices.size() * 3 / 8, GL_UNSIGNED_INT, 0);
+  glDrawElements(GL_TRIANGLES, sizeof(vertices), GL_UNSIGNED_INT, 0);
 
   glDisableVertexAttribArray(1);
   glDisableVertexAttribArray(0);
   glBindVertexArray(0);
+}
+
+void Image::update() {
+}
+
+void Image::cleanup() {
+	glDeleteTextures(1, &textureID);
 }

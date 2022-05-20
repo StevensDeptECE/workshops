@@ -22,8 +22,22 @@
    i. What OpenGL does NOT do
      a. audio
      a. video
-     a. 
+     a. nice fonts
+     a. windows
+     a. text and mouse input
 1. Intro
  a. Graphics rendering hardware
  a. The rendering pipeline
  a. 3d vs. 2d graphics
+1. First Program
+ a. glut, a primitive portable windowing toolkit
+ a. Immediate mode: old, simple, but slower
+ a. Solid color and Gouraud shading
+ a. OpenGL drawing primitives
+1. Transformations
+ a. matrix math
+ a. the transformation stack
+1. Lighting
+ a. ambient
+ a. spot
+ a. materials

@@ -1,0 +1,3 @@
+/home/dkruger/git/course/workshops/opengl/src/01shaders/bin/_deps/webp-subbuild/CMakeFiles/rebuild_cache.dir
+/home/dkruger/git/course/workshops/opengl/src/01shaders/bin/_deps/webp-subbuild/CMakeFiles/edit_cache.dir
+/home/dkruger/git/course/workshops/opengl/src/01shaders/bin/_deps/webp-subbuild/CMakeFiles/webp-populate.dir
