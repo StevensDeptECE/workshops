@@ -1,6 +1,0 @@
-/home/dkruger/git/course/workshops/opengl/src/01shaders/CMakeFiles/rebuild_cache.dir
-/home/dkruger/git/course/workshops/opengl/src/01shaders/CMakeFiles/edit_cache.dir
-/home/dkruger/git/course/workshops/opengl/src/01shaders/CMakeFiles/test1.dir
-/home/dkruger/git/course/workshops/opengl/src/01shaders/bin/_deps/fmt-build/CMakeFiles/edit_cache.dir
-/home/dkruger/git/course/workshops/opengl/src/01shaders/bin/_deps/fmt-build/CMakeFiles/rebuild_cache.dir
-/home/dkruger/git/course/workshops/opengl/src/01shaders/bin/_deps/fmt-build/CMakeFiles/fmt.dir
