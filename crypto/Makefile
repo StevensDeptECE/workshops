@@ -33,6 +33,12 @@ aes_decryption: aes_decryption.cc
 bio_connect: bio_connect.cc
 	$(CXX) $< -o $@ $(LIBS)
 
-clean:
-	rm *.o *~ libdov.a libdov.so aes_decryption
+fastrandtest: fastrandtest.cc
+	g++ -g -mavx2 -O2 -m64 -mrdseed -mrdrnd $< -o $@ -lcrypto
+	g++ -O2 -mavx2 -S -m64 -mrdseed -mrdrnd $<
 
+fastudpsecure: fastudpsecure.cc
+	g++ -g -m64 -mrdrnd $< -o $@ -lcrypto
+
+clean:
+	rm *.o *~ libdov.a libdov.so aes_decryption fastrandtest
