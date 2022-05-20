@@ -1,3 +1,0 @@
-repository='https://github.com/webmproject/libwebp.git'
-module=''
-tag='origin'

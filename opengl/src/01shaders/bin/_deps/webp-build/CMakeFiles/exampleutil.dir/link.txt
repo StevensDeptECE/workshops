@@ -1,2 +1,0 @@
-/usr/bin/ar qc libexampleutil.a  CMakeFiles/exampleutil.dir/examples/example_util.c.o
-/usr/bin/ranlib libexampleutil.a

@@ -1,1 +1,0 @@
-/usr/bin/cc  -pthread -O3 -DNDEBUG   CMakeFiles/gif2webp.dir/examples/gif2webp.c.o CMakeFiles/gif2webp.dir/examples/gifdec.c.o  -o ../../gif2webp  libexampleutil.a libimageioutil.a libwebp.a libwebpmux.a /usr/lib/x86_64-linux-gnu/libgif.so libwebp.a -lpthread -lm 
