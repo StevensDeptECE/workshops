@@ -1,7 +1,6 @@
 #include "opengl/Shape.hh"
 #include "opengl/Canvas.hh"
 
-
 Shape::~Shape() {}
 
 void Shape::cleanup() {}

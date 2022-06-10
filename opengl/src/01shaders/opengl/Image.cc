@@ -37,12 +37,6 @@ inline void Image::setupBuffers(float u0, float v0, float u1, float v1) {
 
 	vertices[12] = x+width;	vertices[13] = y;
 	vertices[14] = u1;	    vertices[15] = v1;
-	indices[0] = 0;
-	indices[1] = 1;
-	indices[2] = 2;
-	indices[3] = 2;
-	indices[4] = 1;
-	indices[5] = 3;
 }
 
 bool readEntireFile(const char filename[], uint8_t** buf, uint32_t* len) {
@@ -70,7 +64,7 @@ inline void Image::setImage(const char filename[]) {
 	// Specify the desired output colorspace:
 	config.output.colorspace = MODE_BGRA;
 	// Have config.output point to an external buffer:
-  uint8_t* data = new uint8_t[w*h]; //allocate memory
+  uint8_t* data = new uint8_t[w*h*4]; //allocate memory
 	if (data == nullptr)
     throw Ex2(Errcode::IMAGE_LOAD, filename);
 	config.output.u.RGBA.rgba = data;
@@ -82,8 +76,8 @@ inline void Image::setImage(const char filename[]) {
     throw Ex2(Errcode::IMAGE_LOAD, filename);
 	
 	// generate texture and bind it to current object
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, textureWidth, textureHeight, 0,
-							 GL_RGB, GL_UNSIGNED_BYTE, data);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, textureWidth, textureHeight, 0,
+							 GL_RGBA, GL_UNSIGNED_BYTE, data);
 	glGenerateMipmap(GL_TEXTURE_2D);
 	delete [] data;
 }
@@ -112,12 +106,6 @@ void Image::init() {
   glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices[0],
 							 GL_STATIC_DRAW);
 
-  // Index array object
-  glGenBuffers(1, &sbo);
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sbo);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), &indices[0],
-							 GL_STATIC_DRAW);
-
   // position attribute
   glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
   // texture coord attribute
@@ -136,8 +124,7 @@ void Image::render(glm::mat4& proj) {
   glActiveTexture(GL_TEXTURE0);
   glBindTexture(GL_TEXTURE_2D, textureID);
 
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sbo);
-  glDrawElements(GL_TRIANGLES, sizeof(vertices), GL_UNSIGNED_INT, 0);
+  glDrawArrays(GL_TRIANGLE_STRIP, 0, 16);
 
   glDisableVertexAttribArray(1);
   glDisableVertexAttribArray(0);
