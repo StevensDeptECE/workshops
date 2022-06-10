@@ -72,9 +72,9 @@ void init() {
   // down a bit.  Then we move the object back 3 units "into the screen".
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-  glTranslatef(0, 0, -3);
-  glRotatef(50, 1, 0, 0);
-  glRotatef(70, 0, 1, 0);
+  glTranslatef(0, 0, -3); // move 3 units into the screen
+  glRotatef(10, 1, 0, 0); // rotate by 50 degrees around the vector [1,0,0] (x axis)
+//  glRotatef(70, 0, 1, 0); // rotate by 70 degrees around the vector [0,1,0] (y axis)
 }
 
 // created a standard initialization function to perform all the standard GLUT calls instead of writing the same thing in every demo

@@ -12,6 +12,12 @@ all: 00a_quad 00b_triangle 01tetrahedron 02torus 03colorcube_flyby 04sierpinski 
 00b_triangle: 00b_triangle.cc glheaders.hh
 	$(COMP) $< -o $@ $(LIBS)
 
+00c_badquad: 00c_badquad.cc glheaders.hh
+	$(COMP) $< -o $@ $(LIBS)
+
+00d_drawprimitives: 00d_drawprimitives.cc glheaders.hh
+	$(COMP) $< -o $@ $(LIBS)
+
 01tetrahedron: 01tetrahedron.cc glheaders.hh
 	$(COMP) $< -o $@ $(LIBS)
 

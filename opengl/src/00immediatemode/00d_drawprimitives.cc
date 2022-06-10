@@ -10,13 +10,25 @@ void display() {
   // Set every pixel in the frame buffer to the current clear color.
   glClear(GL_COLOR_BUFFER_BIT);
 
-  // by default the screen coordinates are x = [-1, 1], y = [-1, 1]
-  glBegin(GL_POLYGON); // create a filled convex polygon.
-    glColor3f(0.5, 0, 0);  // set the color once to red
-    glVertex2f(-0.6, -0.75); // specify 4 2_D points to create a quadrilateral
-    glVertex2f(0, -0.9);
-    glVertex2f(0.6, -0.75);
-    glVertex2f(0, 0.75);
+  // Drawing is done by specifying a sequence of vertices.  The way these
+  // vertices are connected (or not connected) depends on the argument to
+  // glBegin.  GL_POLYGON constructs a filled convex polygon.
+  glColor3f(1, 1, 1);
+
+  glLineWidth(5);
+  glBegin(GL_LINES);
+    glVertex2f(-0.6, 0.8);  glVertex2f(+0.6, 0.8);
+    glVertex2f(-.9, 0);     glVertex2f(+0.9, 0);
+    glVertex2f(-1, -0.85);     glVertex2f(+0.9, -.75);
+  glEnd();
+
+
+  glLineWidth(3);
+  glColor3f(0.1, 0.2, 1);
+  glBegin(GL_LINES);
+    glVertex2f(-0.6, 0.6);  glVertex2f(+0.6, 0.6);
+    glVertex2f(-.9, 0.3);     glVertex2f(+0.9, 0.2);
+    glVertex2f(-1, -0.65);     glVertex2f(+0.9, -.55);
   glEnd();
 
   // Flush drawing command buffer to make drawing happen as soon as possible.
@@ -34,10 +46,10 @@ int main(int argc, char** argv) {
   glutInit(&argc, argv);
   glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
 
-  // Position window at (80,80)-(480,380) and give it a title.
+  // Position window at (80,80)-(480,300) and give it a title.
   glutInitWindowPosition(80, 80);
   glutInitWindowSize(400, 300);
-  glutCreateWindow("Triangle");
+  glutCreateWindow("Gouraud Shaded Triangle");
 
   // Tell GLUT that whenever the main window needs to be repainted that it
   // should call the function display().
