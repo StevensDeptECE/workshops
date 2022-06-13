@@ -12,6 +12,10 @@ set(CMAKE_CXX_STANDARD 20)
 option(CMAKE_CXX_STANDARD_REQUIRED ON)
 option(CMAKE_CXX_EXTENSIONS OFF)
 
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE DEBUG)
+endif()
+
 message(STATUS "Current source dir: ${CMAKE_CURRENT_SOURCE_DIR}")
 
 include(FetchContent)
