@@ -2,5 +2,6 @@ CMakeFiles
 *~
 build/
 bin/
-buildbuild
+buildbuild/
+external/
 a.out

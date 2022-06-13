@@ -23,8 +23,20 @@ FetchContent_Declare(
   fmt
   GIT_REPOSITORY https://github.com/fmtlib/fmt.git
   GIT_TAG d141cdbeb0fb422a3fb7173b285fd38e0d1772dc # v8.0.1
-  SOURCE_DIR ${PROJECT_SOURCE_DIR}/include/fmt)
+  SOURCE_DIR ${PROJECT_SOURCE_DIR}/external/fmt)
 FetchContent_MakeAvailable(fmt)
+
+# GLM
+FetchContent_Declare(
+  glm
+  GIT_REPOSITORY https://github.com/g-truc/glm.git
+  # 0.9.9.8 does not have C++ 20 fix yet, so master branch is currently used
+  # GIT_TAG        bf71a834948186f4097caa076cd2663c69a10e1e # 0.9.9.8
+  SOURCE_DIR ${PROJECT_SOURCE_DIR}/external/glm)
+FetchContent_GetProperties(glm)
+if(NOT glm_POPULATED)
+  FetchContent_Populate(glm)
+endif()
 
 #FetchContent_Declare(
 #  webp
@@ -54,8 +66,9 @@ opengl/MultiShape.cc;util/Callbacks.cc;util/Prefs.cc;opengl/ErrNames.cc;opengl/M
     endif()
     add_executable(${GRAILBIN_BINNAME} ${GRAILBIN_SRC} ${GRAIL_SRC})
     target_include_directories (${GRAILBIN_BINNAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+    target_include_directories (${GRAILBIN_BINNAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/external)
     target_include_directories (${GRAILBIN_BINNAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/includeshaders)
-    target_include_directories (${GRAILBIN_BINNAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include/glm)
+    target_include_directories (${GRAILBIN_BINNAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/external/glm)
     target_include_directories (${GRAILBIN_BINNAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
     target_link_libraries(${GRAILBIN_BINNAME} fmt::fmt)
