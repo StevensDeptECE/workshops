@@ -89,6 +89,7 @@ endfunction()
 
 add_exec(SRC test1.cc)
 add_exec(SRC testLoadWebp.cc USEMAIN FALSE)
+add_exec(SRC testCustomShader.cc)
 #add_exec(testImage testImage.cc ${GRAILSRC})
 
 # target_include_directories (test1 PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
