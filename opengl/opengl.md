@@ -3,8 +3,10 @@
 1. Introduction to the OpenGL Environment
  a. What you will need (You probably already have most)
    i. MSYS2 on Windows
-   i. GLFW windowing toolkit
+   i. glut
+   i. glu (glue functions)
    i. OpenGL library
+   i. GLFW windowing toolkit
    i. IDE
    i. Debugger set up (can be gdb, or graphical debugger in the IDE)
    i. Microsoft vscode environment to collaboratively edit with in class

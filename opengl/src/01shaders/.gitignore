@@ -5,3 +5,4 @@ bin/
 buildbuild/
 external/
 a.out
+.vscode
