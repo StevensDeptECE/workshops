@@ -1,5 +1,6 @@
 #include "opengl/GrailGUI.hh"
 #include "opengl/Shader.hh"
+#include "glad/glad.h"
 using namespace std;
 using namespace grail;
 
@@ -9,7 +10,7 @@ private:
   uint32_t vbo; // vertex buffer object, holds the points to be drawn
 public:
 CustomShader() {
-  shaderID = Shader::load("weather.bin", "common.vert", "weather.frag");
+  shaderID = Shader::load("gradient.bin", "shaders/Texture.vert", "shaders/01simplegradient.frag");
 }
 
 void init() override;
@@ -19,7 +20,12 @@ void cleanup() override;
 };
 
 void CustomShader::init() {
-  Shape::init(); // call the parent to create a VAO
+  //TODO: add Shape::init(); // call the parent to create a VAO
+
+  glGenVertexArrays(1, &vao);   // Creating rect VAO
+  glBindVertexArray(vao);
+
+  const float x = 0, y = 0, width = 100, height = 100;
   float vertices[16] = {
   	x,	     y,           0, 0,
     x,       y+height,    0, 1,
@@ -32,7 +38,11 @@ void CustomShader::init() {
 
   // copy the points into it
   glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices[0], GL_STATIC_DRAW);
-
+  // position attribute
+  glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
+  // texture coord attribute
+  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float),
+                        (void*)(2 * sizeof(float)));
 }
 
 void CustomShader::render(glm::mat4& proj) {
@@ -47,17 +57,18 @@ void CustomShader::render(glm::mat4& proj) {
   glDisableVertexAttribArray(1);
   glDisableVertexAttribArray(0);
   glBindVertexArray(0);
-
 }
 
 void CustomShader::update() {
-    
 }
 
-void CustomShader:cleanup() {
-    
+void CustomShader::cleanup() {
 }
+
 void grailmain(int argc, char* argv[], GLWin* w, Tab* t) {
-  w->setTitle("");
+  w->setTitle("Example of custom shader");
+  t->setFrameRate(-1); // don't animate, nothing happening
+  MainCanvas* c = t->getMainCanvas();  
+  CustomShader* cs = c->addLayer(new CustomShader());
   
 }

@@ -45,7 +45,7 @@ string Shader::shaderDir;
  inline uint32_t Shader::loadAndCompile(const char filename[], GLuint shaderType,
                              const char shaderTypeName[]) {
   ifstream shaderFile(filename);
-  if (!shaderFile) throw "Failed to load shader";
+  if (!shaderFile) throw Ex2(Errcode::MISSING_SHADER, filename);
 
   stringstream shaderStream;
   shaderStream << shaderFile.rdbuf();
