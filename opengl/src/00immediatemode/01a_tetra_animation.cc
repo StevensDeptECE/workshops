@@ -11,6 +11,8 @@
 // Clears the window and draws the tetrahedron.  The tetrahedron is  easily
 // specified with a triangle strip, though the specification really isn't very
 // easy to read.
+
+const int angle= 1;
 void display() {
   glClear(GL_COLOR_BUFFER_BIT);
 
@@ -33,8 +35,13 @@ void display() {
     glColor3f(1, 1, 1); glVertex3f(0, 2, 0);
     glColor3f(1, 0, 0); glVertex3f(-1, 0, 1);
   glEnd();
-
+  
+  glRotatef(angle, 0, 1,0);
+  
   glFlush();
+  
+  glutPostRedisplay();
+  Sleep(30);
 }
 
 // Sets up global attributes like clear color and drawing color, enables and
@@ -72,12 +79,12 @@ void init() {
   // down a bit.  Then we move the object back 3 units "into the screen".
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-  glTranslatef(0, 0, -3); // move 3 units into the screen
-  glRotatef(10, 1, 0, 0); // rotate by 50 degrees around the vector [1,0,0] (x axis)
-//  glRotatef(70, 0, 1, 0); // rotate by 70 degrees around the vector [0,1,0] (y axis)
+  glTranslatef(0, 0, -3);
+  glRotatef(50, 1, 0, 0);
+  glRotatef(70, 0, 1, 0);
 }
 
 // created a standard initialization function to perform all the standard GLUT calls instead of writing the same thing in every demo
 int main(int argc, char** argv) {
-	init_app(argc, argv, 0,0, 800, 600, "Tetrahedron", nullptr, display);
+	init_app(argc, argv, 0,0, 800, 600, "Moving Around a Tetrahedron", nullptr, display);
 }

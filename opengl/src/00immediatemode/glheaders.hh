@@ -27,7 +27,7 @@
 
  */
 #include "glut.h"
-#include "gl.h"
+#include <gl.h>
 #include <cmath>
 
 typedef void (*reshape_callback)(GLint w, GLint h);

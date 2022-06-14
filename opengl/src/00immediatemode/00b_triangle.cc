@@ -34,10 +34,10 @@ int main(int argc, char** argv) {
   glutInit(&argc, argv);
   glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
 
-  // Position window at (80,80)-(480,380) and give it a title.
+  // Position window at (80,80)-(480,300) and give it a title.
   glutInitWindowPosition(80, 80);
   glutInitWindowSize(400, 300);
-  glutCreateWindow("Triangle");
+  glutCreateWindow("Gouraud Shaded Triangle");
 
   // Tell GLUT that whenever the main window needs to be repainted that it
   // should call the function display().
