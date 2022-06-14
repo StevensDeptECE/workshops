@@ -10,6 +10,10 @@ class MultiShape : public Shape {
  uint32_t sbo; // solid indices
  uint32_t lbo; // line indices
  uint32_t pbo; // point indices
+  uint32_t vboCapacity;
+  uint32_t sboCapacity;
+  uint32_t lboCapacity;
+  uint32_t pboCapacity;
 
   std::vector<float> vertices;
   std::vector<uint32_t> solidIndices;

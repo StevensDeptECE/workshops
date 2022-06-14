@@ -67,6 +67,7 @@ void StyledMultiShape2D::init() {
   glBindBuffer(GL_ARRAY_BUFFER, vbo);
   glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), &vertices[0],
                GL_DYNAMIC_DRAW);
+               vboCapacity = vertices.size();
   // Describe how information is received in shaders
   glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
   glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float),
@@ -109,11 +110,23 @@ void StyledMultiShape2D::init() {
 }
 
 void StyledMultiShape2D::updatePoints() {
-  glBindBuffer(GL_ARRAY_BUFFER, vbo);
-  glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), &vertices[0],
+  if (vertices.size() <= vboCapacity) {
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), &vertices[0],
                GL_DYNAMIC_DRAW);
+               //TODO: this only works if size <= original size. 
+  } else {
+    //TODO: make this work?
+//TODO:    glDeleteBuffers(vbo); //????
+    glGenBuffers(1, &vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), &vertices[0],
+               GL_DYNAMIC_DRAW);
+    vboCapacity = vertices.size();
+  }
 }
 
+//TODO: we need to do the same as above for sbo (solid indices), for lbo (line indices), for pbo (point indices)
 void StyledMultiShape2D::updateIndices() {
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, lbo);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * lineIndices.size(),
