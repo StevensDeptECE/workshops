@@ -167,8 +167,8 @@ GLWin::GLWin(uint32_t bgColor, uint32_t fgColor, const string &title,
       mousePressX(0),
       mousePressY(0) {
   glfwInit();
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 #ifdef __APPLE__
@@ -264,11 +264,11 @@ void GLWin::baseInit() {
                "common.frag");  // Texture for images
   Shader::load("multiText.bin", "MultiTexture.vert",
                "MultiTexture.frag");  // MultiTexture for shapes
-#if 0
-  glEnable(GL_DEBUG_OUTPUT);
-  glDebugMessageCallback(messageCallback, 0);
-#endif
 
+  glEnable(GL_DEBUG_OUTPUT);
+  glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+  glDebugMessageCallback(messageCallback, (const void*)&current);
+  
   for (int i = 0; i < tabs.size(); ++i) {
     tabs[i]->init();
   }
