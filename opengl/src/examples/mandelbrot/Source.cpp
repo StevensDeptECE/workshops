@@ -30,8 +30,8 @@ void window_size_callback(GLFWwindow* window, int width, int height);
 int main() {
 	if (!glfwInit()) LOG("GLFW: failed to init")
 	
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4); // MUST MATCH OpenGL version
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 
 	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Mandelbrot Set", NULL, NULL);
 	
@@ -47,7 +47,7 @@ int main() {
 	glfwSetScrollCallback(window, scroll_callback);
 	glfwSetWindowSizeCallback(window, window_size_callback);
 
-	glfwMakeContextCurrent(window);
+	glfwMakeContextCurrent(window); //create OpenGL context
 
 	if (glewInit() != 0) LOG("GLEW: failed to init")
 	
@@ -64,20 +64,32 @@ int main() {
 	#include "mandelbrot.vs.hh"
   #include "mandelbrot.fs.hh"
 
-	unsigned int vao, vbo;
-	glGenVertexArrays(1, &vao);
-	glBindVertexArray(vao);
-	glGenBuffers(1, &vbo);
+	uint32_t vao; // vertex array object (holds lists of points, indices and colors on the card)
+	glGenVertexArrays(10, &vao); // create 1 new vertex array object and store into vao
+	glBindVertexArray(vao); // use this one until the next time I change my mind
+
+	uint32_t vbo; //vertex buffer object (handle to an array of vertices on the graphics card)
+	glGenBuffers(1, &vbo); // create it
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+
+	// connect an array on THIS COMPUTER and send to the graphics card (this takes time, uses bus)
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
+
+	glVertexAttribPointer
+	(0,							// send this data to the vertex shader (GLSL)
+	 2,						  // send 2 values
+	 GL_FLOAT,      // they are floats
+	 GL_FALSE,
+	 0,
+	 0              // offset
+	);
 	glEnableVertexAttribArray(0);
 	
 	unsigned int vertex, fragment;
 	int success;
 	char infoLog[1024];
 
-	vertex = glCreateShader(GL_VERTEX_SHADER);
+	vertex = glCreateShader(GL_VERTEX_SHADER); // describes how (vertices, colors, indices, textures) get transformed
 	glShaderSource(vertex, 1, &vertexSource, NULL);
 	glCompileShader(vertex);
 	glGetShaderiv(vertex, GL_COMPILE_STATUS, &success);
@@ -86,7 +98,8 @@ int main() {
 		std::cout << "ERROR::SHADER_COMPILATION_ERROR of type: VERTEX\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
 	}
 
-	fragment = glCreateShader(GL_FRAGMENT_SHADER);
+// output of the vertex shader goes to the fragment shader
+	fragment = glCreateShader(GL_FRAGMENT_SHADER); // turns primitives into pixels
 	glShaderSource(fragment, 1, &fragmentSource, NULL);
 	glCompileShader(fragment);
 	glGetShaderiv(fragment, GL_COMPILE_STATUS, &success);
