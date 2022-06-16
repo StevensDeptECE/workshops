@@ -123,7 +123,7 @@ GLFWwindow* createWindow(uint32_t w, uint32_t h, const char title[]) {
 		glfwTerminate();
 		throw "Failed to open GLFW window";
 	}
-	glfwMakeContextCurrent(win);
+	glfwMakeContextCurrent(win); // create OpenGL context
 
 	// Initialize GLEW
 	glewExperimental = true; // Needed for core profile

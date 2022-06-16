@@ -1,6 +1,6 @@
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
+#include <GL/glew.h>    // OpenGL API
+#include <GLFW/glfw3.h> // Window API
+#include <glm/glm.hpp>  // Matrix and vector math for OpenGL
 #include <glm/ext.hpp>
 
 // all demos use a window, declared globally in common.cc
