@@ -54,9 +54,9 @@ function(add_exec)
     cmake_parse_arguments(GRAILBIN "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
     set(GRAIL_SRC
 include/glad/glad.c;opengl/GLWin.cc;opengl/Tab.cc;opengl/Canvas.cc;
-opengl/Image.cc;opengl/Tab.cc;opengl/Member.cc;opengl/Shader.cc;opengl/Shape.cc;
+opengl/Image.cc;opengl/Tab.cc;opengl/Member.cc;opengl/Shader.cc;opengl/Shape.cc;opengl/Sphere.cc;
 opengl/Colors.cc;opengl/GLWinFonts.cc;util/HashMap.cc;opengl/StyledMultiShape2D.cc;
-opengl/MultiShape.cc;util/Callbacks.cc;util/Prefs.cc;opengl/ErrNames.cc;opengl/MultiShape2D.cc)
+opengl/MultiShape.cc;util/Callbacks.cc;util/Prefs.cc;opengl/ErrNames.cc;opengl/MultiShape2D.cc;)
 
     if(NOT ${GRAILBIN_USEMAIN})
       list(APPEND GRAIL_SRC opengl/Main.cc)
@@ -91,6 +91,7 @@ add_exec(SRC test1.cc)
 add_exec(SRC testLoadWebp.cc USEMAIN FALSE)
 add_exec(SRC testCustomShader.cc)
 add_exec(SRC testTransformations.cc)
+add_exec(SRC testSphere.cc)
 #add_exec(testImage testImage.cc ${GRAILSRC})
 
 # target_include_directories (test1 PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)

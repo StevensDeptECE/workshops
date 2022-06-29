@@ -24,9 +24,15 @@ void CustomShader::init() {
 
   glGenVertexArrays(1, &vao);   // Creating rect VAO
   glBindVertexArray(vao);
+/*
+   1     4 
 
+   2     3
+
+*/
   const float x = 0, y = 0, width = 100, height = 100;
   float vertices[16] = {
+  //x        y            u  v  (u,v) is the coordinate in shader world!
   	x,	     y,           0, 0,
     x,       y+height,    0, 1,
     x+width, y,           1, 0,
@@ -47,10 +53,11 @@ void CustomShader::init() {
 
 void CustomShader::render(glm::mat4& proj) {
   glBindVertexArray(vao);
-  glEnableVertexAttribArray(0);
-  glEnableVertexAttribArray(1);
-
+  glEnableVertexAttribArray(0); //xy
+  glEnableVertexAttribArray(1); //uv
+ 
   Shader* s = Shader::useShader(shaderID);
+  proj = glm::scale(proj, glm::vec3(2,2,0));
   s->setMat4("projection", proj);
   glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
