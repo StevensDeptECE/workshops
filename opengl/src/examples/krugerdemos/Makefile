@@ -1,4 +1,4 @@
-DEBUG	:=	-g
+DEBUG	:=	-g #-std=c++20
 OPT	:=	-O2
 COMP	:=	g++ $(OPT) $(DEBUG)
 
@@ -9,7 +9,7 @@ else
 	LIBS	:= common.o	-lGL -lglfw -lGLEW
 endif
 
-all: bin/01window bin/02triangle bin/03gouraud bin/04transform
+all: bin/01window bin/02triangle bin/03gouraud bin/04transform bin/05sphere
 
 #this builds the single common object file used by all demos
 #which contains a standard main, loader for shaders,
@@ -29,8 +29,11 @@ bin/03gouraud: 03gouraud.cc common.o
 bin/04transform: 04transform.cc common.o
 	$(COMP) $< -o $@ $(LIBS)
 
-bin/05lights: 05lights.cc common.o
-	$(COMP) $< -o $@ $(LIBS)
+bin/05sphere: 05sphere.cc Shape.hh Shape.cc common.o
+	$(COMP) $< Shape.cc -o $@ $(LIBS)
+
+#bin/05lights: 05lights.cc common.o
+#	$(COMP) $< -o $@ $(LIBS)
 
 clean:
 	rm bin/*
