@@ -1,4 +1,4 @@
-DEBUG	:=	-g #-std=c++20
+DEBUG	:=	-g -std=c++20
 OPT	:=	-O2
 COMP	:=	g++ $(OPT) $(DEBUG)
 

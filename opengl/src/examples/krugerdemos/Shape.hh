@@ -12,6 +12,6 @@ class Shape {
 
   virtual void init() = 0;
   virtual void render(glm::mat4& proj) = 0;
-  virtual void update() = 0;
+  virtual void update();
   virtual void cleanup();
 };

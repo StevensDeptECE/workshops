@@ -4,18 +4,17 @@
 using namespace std;
 
 void glmain() {
-	win = createWindow(1000, 800, "Gouraud triangle demo");
+	win = createWindow(1000, 800, "Transform triangle demo");
 
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);	// Dark blue background
+
+  // Create and compile our GLSL program from the shaders
+	uint32_t programID = loadShaders( "03gouraud.vert", "03gouraud.frag" );
+	//	uint32_t programID = loadShaders( "04transform.vert", "03gouraud.frag" );
 
 	uint32_t vao;
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
-
-	// Create and compile our GLSL program from the shaders
-	uint32_t programID = loadShaders( "03gouraud.vert", "03gouraud.frag" );
-	//	uint32_t programID = loadShaders( "04transform.vert", "03gouraud.frag" );
-
 	// each point is x,y, r,g,b
 	static const float vertices[] = { 
 		-1.0f, -1.0f,    1.0f, 0.0f, 0.0f,
@@ -27,13 +26,15 @@ void glmain() {
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	glBindVertexArray(0); // we aren't working with vao any more
 
 	do {
 		glClear( GL_COLOR_BUFFER_BIT );  	// Clear the screen
 		glUseProgram(programID);      		// Use our shader
+  	glBindVertexArray(vao);           // draw using vao and its vbo, and anything else inside it
 
 		// 1st attribute buffer : vertices
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	//	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
 		glVertexAttribPointer(
 			0,                  // first parameter to shader, numbered 0
@@ -67,6 +68,7 @@ void glmain() {
 
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);
+  	glBindVertexArray(0);            // stop drawing using vao
 
 		glfwSwapBuffers(win); // double buffer
 		glfwPollEvents();
