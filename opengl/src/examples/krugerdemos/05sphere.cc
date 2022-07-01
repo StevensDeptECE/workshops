@@ -134,10 +134,15 @@ void dump(const glm::mat4& m) {
    << setw(14) << m[3][0] << setw(14) << m[3][1] << setw(14) << m[3][2] << setw(14) << m[3][3] << endl;
 }
 
-void apply(const glm::mat4& m, const glm::vec4& v) {
+void applymat(const glm::mat4& m, const glm::vec4& v) {
   glm::vec4 v4 = m * v;
   cout << "x=" << v4.x << ", y=" << v4.y << ", z=" << v4.z << endl;
 }
+
+void applymat(const glm::mat4& m, float x, float y, float z) {
+	applymat(m, glm::vec4(x,y,z,1.0f));
+}
+
 void Sphere::renderPoints(glm::mat4& proj) const {
 	uint32_t matrixID = glGetUniformLocation(progid, "trans");
 	glUniformMatrix4fv(matrixID, 1, GL_FALSE, &proj[0][0]);
@@ -186,7 +191,7 @@ void Sphere::renderSolid(glm::mat4& proj) const {
 	  (void*)0            // array buffer offset
 	);
   glEnableVertexAttribArray(0); // pass x,y to shader
-
+  
   glEnable(GL_PROGRAM_POINT_SIZE);
 
   glDrawElements(GL_TRIANGLE_STRIP, 2*lonRes, GL_UNSIGNED_INT, (void*)0);
