@@ -53,7 +53,7 @@ class Function {
   }
   // indices has extra yres used for separators, drawing yres separate triangle strips
   indexSize = 2* count + yres;
-  float indices[indexSize]; // value used to convert to color (heatmap)
+  uint32_t indices[indexSize]; // value used to convert to color (heatmap)
   const uint32_t separator = 0xFFFFFFFF;
   // this time, build indices for the boxes between the edges
   // so the numbers are 1 less in each dimension
