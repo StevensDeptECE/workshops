@@ -9,7 +9,7 @@ else
 	LIBS	:= common.o	-lGL -lglfw -lGLEW
 endif
 
-all: bin/01window bin/02triangle bin/03gouraud bin/04transform bin/05sphere
+all: bin/01window bin/02triangle bin/03gouraud bin/04transform bin/05sphere bin/05mwe
 
 #this builds the single common object file used by all demos
 #which contains a standard main, loader for shaders,
@@ -34,6 +34,9 @@ bin/05sphere: 05sphere.cc Shape.hh Shape.cc common.o
 
 #bin/05lights: 05lights.cc common.o
 #	$(COMP) $< -o $@ $(LIBS)
+
+bin/05mwe:  05mwe.cc  common.o
+	$(COMP) $< -o $@ $(LIBS)
 
 clean:
 	rm bin/*
