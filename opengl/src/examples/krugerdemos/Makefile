@@ -1,5 +1,5 @@
 DEBUG	:=	-g -std=c++20
-OPT	:=	-O2
+OPT	:=	#-O2
 COMP	:=	g++ $(OPT) $(DEBUG)
 
 ifeq ($(OS),Windows_NT)
@@ -9,7 +9,7 @@ else
 	LIBS	:= common.o	-lGL -lglfw -lGLEW
 endif
 
-all: bin/01window bin/02triangle bin/03gouraud bin/04transform bin/05sphere bin/05mwe
+all: bin/01window bin/02triangle bin/03gouraud bin/04transform bin/05sphere bin/05mwe bin/07visualizefunc
 
 #this builds the single common object file used by all demos
 #which contains a standard main, loader for shaders,
@@ -36,6 +36,9 @@ bin/05sphere: 05sphere.cc Shape.hh Shape.cc common.o
 #	$(COMP) $< -o $@ $(LIBS)
 
 bin/05mwe:  05mwe.cc  common.o
+	$(COMP) $< -o $@ $(LIBS)
+
+bin/07visualizefunc:  07visualizefunc.cc  common.o
 	$(COMP) $< -o $@ $(LIBS)
 
 clean:
