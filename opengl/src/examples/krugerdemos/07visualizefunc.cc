@@ -111,7 +111,7 @@ void Function::render(mat4& trans) {
 		GL_FLOAT,           // type
 		GL_FALSE,           // normalized?
 		4 * sizeof(float),  // this is the entire set of data, move on
-	  (void*)(4 * sizeof(float))  // byte offset of this value in the window
+	  (void*)(3 * sizeof(float))  // byte offset of this value in the window
 	);
   glEnableVertexAttribArray(1); // pass value to shader
 
