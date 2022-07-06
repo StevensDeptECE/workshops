@@ -1,12 +1,12 @@
 DEBUG	:=	-g -std=c++20
 OPT	:=	#-O2
-COMP	:=	g++ $(OPT) $(DEBUG)
+COMP	:= clang++ $(OPT) $(DEBUG)
 
 ifeq ($(OS),Windows_NT)
 	LIBS	:= common.o -I/mingw64/include/GL -L/mingw64/lib -lOpenGL32 -lglfw3 -lglew32
 else
 	# assuming if not windows, then linux. This will break for unsupported OS or OS that does not declare properly. This will break on OSX.
-	LIBS	:= common.o	-lGL -lglfw -lGLEW
+	LIBS	:= common.o -lglfw $(shell pkg-config --libs glew)
 endif
 
 all: bin/01window bin/02triangle bin/03gouraud bin/04transform bin/05sphere bin/05mwe bin/07visualizefunc
