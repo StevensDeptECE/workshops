@@ -35,7 +35,7 @@ class Function {
   template<typename Func>
   Function(Func f, float xmin, float xmax, float ymin, float ymax, uint32_t xres, uint32_t yres)
   : xmin(xmin), xmax(xmax), ymin(ymin), ymax(ymax), xres(xres), yres(yres) {
-  progid = loadShaders( "05_3d.vert", "02simple.frag" );  
+  progid = loadShaders( "07_heatmap.vert", "07_heatmap.frag" );  
   const uint32_t count = (xres+1)*(yres+1), size = count * 3;
   float vert[size]; // x,y,z
 
@@ -53,7 +53,7 @@ class Function {
   }
   // indices has extra yres used for separators, drawing yres separate triangle strips
   indexSize = 2* count + yres;
-  float indices[indexSize]; // value used to convert to color (heatmap)
+  uint32_t indices[indexSize]; // value used to convert to color (heatmap)
   const uint32_t separator = 0xFFFFFFFF;
   // this time, build indices for the boxes between the edges
   // so the numbers are 1 less in each dimension
@@ -88,6 +88,12 @@ void Function::render(mat4& trans) {
 	glUseProgram(progid);      		// Use the shader
 	uint32_t matrixID = glGetUniformLocation(progid, "trans");
 	glUniformMatrix4fv(matrixID, 1, GL_FALSE, &trans[0][0]);
+
+  uint32_t minColorID = glGetUniformLocation(progid, "minColor");
+  glUniform3f(minColorID, 1.0f,0.0f,0.0f);
+  uint32_t maxColorID = glGetUniformLocation(progid, "maxColor");
+  glUniform3f(maxColorID, 0.0f, 1.0f, 0.0f);
+	
 
   glBindVertexArray(vao);
 	glVertexAttribPointer(
@@ -129,7 +135,7 @@ double f(double x, double y) {
 }
 
 void glmain() {
-	win = createWindow(800, 800, "Sphere demo");
+	win = createWindow(800, 800, "Heatmap demo");
 
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);	// Dark blue background
 	Function func(f, -20, +20, -20, +20, 50, 50);
