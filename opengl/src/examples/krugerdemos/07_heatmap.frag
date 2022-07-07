@@ -14,8 +14,8 @@ float a = -minVal * b;
 
 void main()
 {
-float f = (val - minVal) / (maxVal-minVal);
-//  float f = 0.5; //val * b + a;
+  float f = (val - minVal) / (maxVal-minVal);
+  //float f = 0.0; //val * b + a;
 	//FragColor = //texture(ourTexture, f);
 	FragColor = vec4(minColor*(1.0-f) + maxColor * f,1.0);
 }

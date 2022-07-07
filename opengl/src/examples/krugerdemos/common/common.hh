@@ -17,3 +17,5 @@ void glmain();
 	you write glmain instead
 */
 int main(int argc, char* argv[]);
+void dump(glm::mat4& mat);
+void transpt(glm::mat4& m, double x, double y, double z);

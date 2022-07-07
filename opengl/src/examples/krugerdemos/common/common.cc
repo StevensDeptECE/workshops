@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <iomanip>
 #include <fstream>
 #include <algorithm>
 #include <sstream>
@@ -154,3 +155,28 @@ int main(int argc, char* argv[]) {
 	}
 	return 0;
 }
+
+
+void dump(glm::mat4& mat) {
+    // TODO: I suspect we are printing the matrix transposed
+    const float* m = &mat[0][0];
+    cerr << setprecision(7);
+    for (int i = 0, c = 0; i < 4; i++) {
+      for (int j = 0; j < 4; j++, c++)
+        cerr << setw(14) << m[c];
+      cerr << '\n';
+    }
+  }
+
+void transpt(glm::mat4& m, double x, double y, double z) {
+    cerr << "orig=(" << x << "," << y << "," << z << ") transformed: (" <<
+     (m[0][0] * x + m[1][0] * y + m[2][0] * z + m[3][0]) << "," <<
+     (m[0][1] * x + m[1][1] * y + m[2][1] * z + m[3][1]) << "," <<
+     (m[0][2] * x + m[1][2] * y + m[2][2] * z + m[3][2]) << ")\t(";
+
+    cerr <<
+		 (m[0][0] * x + m[0][1] * y + m[0][2] * z + m[0][3]) << "," <<
+     (m[1][0] * x + m[1][1] * y + m[1][2] * z + m[1][3]) << "," <<
+     (m[2][0] * x + m[2][1] * y + m[2][2] * z + m[2][3]) << ")\n";
+
+  }
