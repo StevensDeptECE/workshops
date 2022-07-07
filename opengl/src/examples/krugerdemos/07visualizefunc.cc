@@ -151,27 +151,35 @@ double g(double x, double y) {
 }
 
 void glmain() {
-	win = createWindow(800, 800, "Heatmap demo");
+	win = createWindow(800, 800, "FunctionViewer demo");
 
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);	// Dark blue background
 	FunctionViewer viewer(g, -20, +20, -20, +20, 100, 100, vec3(0,0,1), vec3(1,0,0));
 
 // move between two points, viewing the function as the view changes
-  vec3 eye1(40,40,40); // location of viewpoint at start
-  vec3 eye2(-40,30,6); // location of viewpoint at end
+  vec3 eye1(1000,40,40); // location of viewpoint at start
+  vec3 eye2(-1000,30,6); // location of viewpoint at end
   float f = 0;
+  float z = 40;
+  float t = 0;
+  const float r = 40;
 	do {
     vec3 eye = eye1 * (1-f) + eye2 * f; // linearly interpolate
+    //vec3 eye(r * cos(t), r * sin(t), z);
     mat4	trans= lookAt(vec3(0,0,0), eye, vec3(0,0,1));
-    trans = scale(trans, vec3(0.02,0.02,.1));
+    //trans = scale(trans, vec3(0.02,0.02,.1));
 		glClear( GL_COLOR_BUFFER_BIT );  	// Clear the screen
 		glDisable(GL_DEPTH_TEST);
 		viewer.render(trans);
 		glfwSwapBuffers(win);
 		glfwPollEvents();
-    f += 0.0125;
+    f += 0.00125;
     if (f >= 1)
       f = 0;
+    z -= 0.01;
+    if (z <= 5)
+      z = 40;
+    t += .01;
 	}	while( glfwGetKey(win, GLFW_KEY_ESCAPE ) != GLFW_PRESS &&
 					 glfwWindowShouldClose(win) == 0 );
 }
