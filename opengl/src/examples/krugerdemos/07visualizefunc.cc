@@ -10,7 +10,7 @@
 using namespace std;
 using namespace glm;
 using namespace std::numbers;
-class Function {
+class FunctionViewer {
  private:
 	uint32_t progid; // handle to the shader code
 	uint32_t vao; // array object container for vbo and indices
@@ -20,6 +20,7 @@ class Function {
   float xmin, xmax, ymin, ymax;
   uint32_t indexSize;
   uint32_t xres, yres;
+  vec3 minColor, maxColor;
  public:
   /**
    * @brief Construct the surface of a 3d function f(x,y)
@@ -33,8 +34,9 @@ class Function {
    * @param xmax number of samples in y
    */
   template<typename Func>
-  Function(Func f, float xmin, float xmax, float ymin, float ymax, uint32_t xres, uint32_t yres)
-  : xmin(xmin), xmax(xmax), ymin(ymin), ymax(ymax), xres(xres), yres(yres) {
+  FunctionViewer(Func f, float xmin, float xmax, float ymin, float ymax, uint32_t xres, uint32_t yres,
+   const vec3& minColor, const vec3& maxColor)
+  : xmin(xmin), xmax(xmax), ymin(ymin), ymax(ymax), xres(xres), yres(yres), minColor(minColor), maxColor(maxColor) {
   progid = loadShaders( "07_heatmap.vert", "07_heatmap.frag" );  
   uint32_t count = (xres+1)*(yres+1), size = count * 3;
   
@@ -82,20 +84,20 @@ class Function {
   glBindVertexArray(0);
   }
 
-	~Function() { cleanup(); }
+	~FunctionViewer() { cleanup(); }
   void render(mat4& trans);
   void cleanup();
 };
 
-void Function::render(mat4& trans) {
+void FunctionViewer::render(mat4& trans) {
 	glUseProgram(progid);      		// Use the shader
 	uint32_t matrixID = glGetUniformLocation(progid, "trans");
 	glUniformMatrix4fv(matrixID, 1, GL_FALSE, &trans[0][0]);
 
   uint32_t minColorID = glGetUniformLocation(progid, "minColor");
-  glUniform3f(minColorID, 1.0f,0.0f,0.0f);
+  glUniform3f(minColorID, minColor.r, minColor.g, minColor.b);
   uint32_t maxColorID = glGetUniformLocation(progid, "maxColor");
-  glUniform3f(maxColorID, 0.0f, 1.0f, 0.0f);
+  glUniform3f(maxColorID, maxColor.r, maxColor.g, maxColor.b);
   uint32_t minValID = glGetUniformLocation(progid, "minVal");
   glUniform1f(minValID, -3.0f);
   uint32_t maxValID = glGetUniformLocation(progid, "maxVal");
@@ -112,17 +114,6 @@ void Function::render(mat4& trans) {
 	  (void*)0            // array buffer offset
 	);
   glEnableVertexAttribArray(0); // pass x,y,z to shader, z doubles as the color value
-  #if 0
-  glVertexAttribPointer(
-   	1,                  // second parameter to shader, numbered 1
-		1,                  // 1 number (value)
-		GL_FLOAT,           // type
-		GL_FALSE,           // normalized?
-		4 * sizeof(float),  // this is the entire set of data, move on
-	  (void*)(3 * sizeof(float))  // byte offset of this value in the window
-	);
-  glEnableVertexAttribArray(1); // pass value to shader
-#endif
 
   dump(trans);
   transpt(trans, -20,-20,0);
@@ -141,7 +132,7 @@ void Function::render(mat4& trans) {
   glDisable(GL_PRIMITIVE_RESTART);
 }
 
-void Function::cleanup() {
+void FunctionViewer::cleanup() {
 	glDeleteBuffers(1, &vbo);	// remove vbo memory from graphics card
 	glDeleteVertexArrays(1, &vao); // remove vao from graphics card
 	glDeleteProgram(progid);
@@ -155,26 +146,27 @@ double f(double x, double y) {
 }
 
 double g(double x, double y) {
-  return x;
+  double r = sqrt(x*x + y*y);
+  return 3*cos(r)*exp(-.04*r);
 }
 
 void glmain() {
 	win = createWindow(800, 800, "Heatmap demo");
 
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);	// Dark blue background
-	Function func(f, -20, +20, -20, +20, 100, 100);
+	FunctionViewer viewer(g, -20, +20, -20, +20, 100, 100, vec3(0,0,1), vec3(1,0,0));
 
 // move between two points, viewing the function as the view changes
-  vec3 eye1(40,10,40); // location of viewpoint at start
-  vec3 eye2(1,6,6); // location of viewpoint at end
+  vec3 eye1(40,40,40); // location of viewpoint at start
+  vec3 eye2(-40,30,6); // location of viewpoint at end
   float f = 0;
 	do {
     vec3 eye = eye1 * (1-f) + eye2 * f; // linearly interpolate
-    mat4	trans= lookAt(eye, vec3(0,0,0),vec3(0,0,1));
+    mat4	trans= lookAt(vec3(0,0,0), eye, vec3(0,0,1));
     trans = scale(trans, vec3(0.02,0.02,.1));
 		glClear( GL_COLOR_BUFFER_BIT );  	// Clear the screen
 		glDisable(GL_DEPTH_TEST);
-		func.render(trans);
+		viewer.render(trans);
 		glfwSwapBuffers(win);
 		glfwPollEvents();
     f += 0.0125;
