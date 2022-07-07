@@ -157,8 +157,8 @@ void glmain() {
 	FunctionViewer viewer(g, -20, +20, -20, +20, 100, 100, vec3(0,0,1), vec3(1,0,0));
 
 // move between two points, viewing the function as the view changes
-  vec3 eye1(1000,40,40); // location of viewpoint at start
-  vec3 eye2(-1000,30,6); // location of viewpoint at end
+  vec3 eye1(1000,40,150); // location of viewpoint at start
+  vec3 eye2(-100,0,20); // location of viewpoint at end
   float f = 0;
   float z = 40;
   float t = 0;
@@ -167,7 +167,7 @@ void glmain() {
     vec3 eye = eye1 * (1-f) + eye2 * f; // linearly interpolate
     //vec3 eye(r * cos(t), r * sin(t), z);
     mat4	trans= lookAt(vec3(0,0,0), eye, vec3(0,0,1));
-    //trans = scale(trans, vec3(0.02,0.02,.1));
+    trans = scale(trans, vec3(0.1,0.1,.1));
 		glClear( GL_COLOR_BUFFER_BIT );  	// Clear the screen
 		glDisable(GL_DEPTH_TEST);
 		viewer.render(trans);
