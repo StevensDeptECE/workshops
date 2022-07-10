@@ -4,7 +4,7 @@ SOURCE := Source.cpp
 BINARY := Mandelbrot
 DEPS   := glfw3 glew
 
-CFLAGS := -Wall
+CFLAGS := -Wall -g
 #LIBS   := $(shell pkg-config --static --cflags --libs $(DEPS))
 LIBS   := $(shell pkg-config --cflags --libs $(DEPS))
 

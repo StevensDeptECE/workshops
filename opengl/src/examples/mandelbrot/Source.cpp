@@ -27,6 +27,9 @@ void cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void window_size_callback(GLFWwindow* window, int width, int height);
 
+#include "mandelbrot.vs.hh"
+#include "mandelbrot.fs.hh"
+
 int main() {
 	if (!glfwInit()) LOG("GLFW: failed to init")
 	
@@ -60,9 +63,6 @@ int main() {
 		-1.0f,  1.0f,
 		-1.0f, -1.0f
 	};
-
-	#include "mandelbrot.vs.hh"
-  #include "mandelbrot.fs.hh"
 
 	uint32_t vao; // vertex array object (holds lists of points, indices and colors on the card)
 	glGenVertexArrays(10, &vao); // create 1 new vertex array object and store into vao
