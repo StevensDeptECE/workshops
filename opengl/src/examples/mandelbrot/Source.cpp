@@ -65,7 +65,7 @@ int main() {
 	};
 
 	uint32_t vao; // vertex array object (holds lists of points, indices and colors on the card)
-	glGenVertexArrays(10, &vao); // create 1 new vertex array object and store into vao
+	glGenVertexArrays(1, &vao); // create 1 new vertex array object and store into vao
 	glBindVertexArray(vao); // use this one until the next time I change my mind
 
 	uint32_t vbo; //vertex buffer object (handle to an array of vertices on the graphics card)
