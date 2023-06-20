@@ -14,18 +14,27 @@ final int dx = 50, dy = 50;
 void keyPressed() {
   switch(keyCode) {
     case 'A': // left
-      x -= dx;
-      break;
-    case 'D':// right
       x += dx;
       break;
-    case 'W':
-      y -= dy;
+    case 'D':// right
+      x -= dx;
       break;
-    case 'S':
+    case 'W':
       y += dy;
       break;
+    case 'S':
+      y -= dy;
+      break;
+    case 'R':
+      x = 0;
+      y = 0;
+      break;
   }
+}
+
+//TODO zoom in and out with mouse wheel!
+void mouseWheel() {
+  
 }
 
 void mousePressed() {
