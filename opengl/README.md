@@ -30,7 +30,7 @@ issue](https://github.com/StevensDeptECE/workshops/issues/new/choose) or send
 1. Install initial dependencies
 
   ```shell
-  pacman -S git nano make mingw64/mingw-w64-x86_64-gcc mingw-w64-x86_64-gdb mingw-w64-x86_64-gcc mingw-w64-x86_64-toolchain mingw64-w64-x86_64-freeglut
+  pacman -S git nano make mingw64/mingw-w64-x86_64-gcc mingw-w64-x86_64-gdb mingw-w64-x86_64-gcc mingw-w64-x86_64-toolchain mingw-w64-x86_64-freeglut
   ```
 
 #### On Linux (Ubuntu)
