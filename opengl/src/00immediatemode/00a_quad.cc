@@ -12,7 +12,7 @@ void display() {
 
   // by default the screen coordinates are x = [-1, 1], y = [-1, 1]
   glBegin(GL_POLYGON); // create a filled convex polygon.
-    glColor3f(0.5, 0, 0);  // set the color once to red
+    glColor3f(1.0, 1.0, 0);  // set the color once to red
     glVertex2f(-0.6, -0.75); // specify 4 2_D points to create a quadrilateral
     glVertex2f(0, -0.9);
     glVertex2f(0.6, -0.75);

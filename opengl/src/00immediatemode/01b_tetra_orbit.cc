@@ -1,4 +1,5 @@
 #include "glheaders.hh"
+#include <unistd.h>
 
 // This is a simple introductory program; its main window contains a static
 // picture of a tetrahedron, whose top vertex is white and whose bottom
@@ -27,9 +28,8 @@ void display() {
   glEnd();
 
   glPushMatrix();
-  glTranslatef(trans, trans, 0);
   glRotatef(angle, 0, 1, 0);
-  glTranslatef(-trans, -trans, 0);
+  glTranslatef(trans, 0, 0);
   // Draw the tetrahedron.  It is a four sided figure, so when defining it
   // with a triangle strip we have to repeat the last two vertices.
   glBegin(GL_TRIANGLE_STRIP);
@@ -49,7 +49,7 @@ void display() {
   // if(++angle >= 360){
   //   angle = 0;
   // }
-  Sleep(30);
+  usleep(100000);
 }
 
 // Sets up global attributes like clear color and drawing color, enables and

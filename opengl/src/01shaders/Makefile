@@ -1,6 +1,6 @@
 DEBUG	:=	-g -std=c++20
 OPT	:=	#-O2
-COMP	:= clang++ $(OPT) $(DEBUG)
+COMP	:= g++ $(OPT) $(DEBUG)
 
 ifeq ($(OS),Windows_NT)
 	LIBS	:= common.o -I/mingw64/include/GL -L/mingw64/lib -lOpenGL32 -lglfw3 -lglew32

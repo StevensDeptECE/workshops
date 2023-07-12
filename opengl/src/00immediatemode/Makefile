@@ -12,7 +12,7 @@ endif
 # LIBS := -lfreeglut -lopengl32 -lGLU32 -Wl,--subsystem,windows -mwindows
 #sudo apt install freeglut3-dev libglu-dev
 
-all: 00a_quad 00b_triangle 01tetrahedron 01a_tetra_animation 01b_tetra_orbit 02torus 03colorcube_flyby 04sierpinski 05comet 07moonphases 08bouncingball
+all: 00a_quad 00b_triangle 00c_badquad 01tetrahedron 01a_tetra_animation 01b_tetra_orbit 02torus 03colorcube_flyby 04sierpinski 05comet 07moonphases 08bouncingball
 
 00a_quad: 00a_quad.cc glheaders.hh
 	$(COMP) $< -o $@ ${LIBS}
@@ -52,3 +52,6 @@ all: 00a_quad 00b_triangle 01tetrahedron 01a_tetra_animation 01b_tetra_orbit 02t
 
 08bouncingball: 08bouncingball.cc glheaders.hh
 	$(COMP) $< -o $@ $(LIBS)
+
+clean:
+	rm 00a_quad 00a_triangle 00b_triangle 00c_badquad 00d_drawprimitives 01tetrahedron 01a_tetra_animation 01b_tetra_orbit 02torus 03colorcube_flyby 04sierpinski 05comet 07moonphases 08bouncingball

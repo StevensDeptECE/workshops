@@ -98,7 +98,7 @@ void Sphere::render(mat4& trans) {
   glDrawArrays(GL_POINT, 0, resolution);
 
 	// line strips work, but incomplete (see screen shot)
-	glDrawArrays(GL_LINE_STRIP, 0, resolution);
+	glDrawArrays(GL_POINTS, 0, resolution);
   glDisableVertexAttribArray(0);
 }
 

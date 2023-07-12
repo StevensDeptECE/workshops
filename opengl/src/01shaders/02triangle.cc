@@ -8,7 +8,7 @@ void glmain() {
 
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);	// Dark blue background
 
-	uint32_t vao;
+	uint32_t vao; // vertex array object, a box that holds stuff to use in drawing
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
 

@@ -1,4 +1,5 @@
 #include "glheaders.hh"
+#include <unistd.h>
 
 // This is a simple introductory program; its main window contains a static
 // picture of a tetrahedron, whose top vertex is white and whose bottom
@@ -41,7 +42,7 @@ void display() {
   glFlush();
   
   glutPostRedisplay();
-  Sleep(30);
+  usleep(10000);
 }
 
 // Sets up global attributes like clear color and drawing color, enables and
