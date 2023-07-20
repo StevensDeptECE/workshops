@@ -23,4 +23,6 @@ Parallel programming is a way to make computers faster
 
 For all these technologies (excepto MPI), it turns out they are usually memory bound
 
-1. 
+1. Threading with C++ threads (a wrapper on the OS)
+1. openmp
+1. avx
