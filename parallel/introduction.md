@@ -21,6 +21,19 @@ Parallel programming is a way to make computers faster
    1. Most supercomputers run massive numbers of CPUs splitting jobs with MPI. They may also use NVIDIA cores on each one
    1. [top500](https://www.top500.org/system/180047/)
 
+Chef Analogy:
+Execution units
+
+1. knife (cutting)
+1. stove (4 burners)
+
+Intel CPU
+1. integer Addition
+1. integer multiply
+1. Memory (load/store)
+1. floating point math
+
+
 For all these technologies (excepto MPI), it turns out they are usually memory bound
 
 1. Threading with C++ threads (a wrapper on the OS)
