@@ -6,6 +6,7 @@
 #include <fstream>
 #include <algorithm>
 #include <sstream>
+#include <webp/decode.h>
 using namespace std;
 
 #include <stdlib.h>
@@ -180,3 +181,46 @@ void transpt(glm::mat4& m, double x, double y, double z) {
      (m[2][0] * x + m[2][1] * y + m[2][2] * z + m[2][3]) << ")\n";
 
   }
+
+GLuint loadWebPTexture(const char* filePath) {
+    // Read the file into a buffer
+    std::ifstream file(filePath, std::ios::binary | std::ios::ate);
+    if (!file.is_open()) {
+        std::cerr << "Failed to open WebP file: " << filePath << std::endl;
+        return 0;
+    }
+    std::streamsize size = file.tellg();
+    file.seekg(0, std::ios::beg);
+    std::vector<char> buffer(size);
+    if (!file.read(buffer.data(), size)) {
+        std::cerr << "Failed to read WebP file: " << filePath << std::endl;
+        return 0;
+    }
+
+    // Decode the WebP image
+    int width, height;
+    uint8_t* data = WebPDecodeRGBA(reinterpret_cast<uint8_t*>(buffer.data()), size, &width, &height);
+    if (!data) {
+        std::cerr << "Failed to decode WebP image: " << filePath << std::endl;
+        return 0;
+    }
+
+    // Generate and bind a texture
+    GLuint textureID;
+    glGenTextures(1, &textureID);
+    glBindTexture(GL_TEXTURE_2D, textureID);
+
+    // Upload the texture data
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+
+    // Set texture parameters
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    // Free the image data
+    WebPFree(data);
+
+    return textureID;
+}

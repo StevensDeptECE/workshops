@@ -9,8 +9,8 @@ void glmain() {
 	glClearColor(0.0f, 0.0f, 0.4f, 0.0f);	// Dark blue background
 
   // Create and compile our GLSL program from the shaders
-	uint32_t programID = loadShaders( "03gouraud.vert", "03gouraud.frag" );
-	//	uint32_t programID = loadShaders( "04transform.vert", "03gouraud.frag" );
+	//uint32_t programID = loadShaders( "03gouraud.vert", "03gouraud.frag" );
+	uint32_t programID = loadShaders( "04transform.vert", "03gouraud.frag" );
 
 	uint32_t vao;
 	glGenVertexArrays(1, &vao);
@@ -38,15 +38,15 @@ void glmain() {
 
 		glVertexAttribPointer(
 			0,                  // first parameter to shader, numbered 0
-			2,                  // 3 floating point numbers (x,y) z = 0
+			2,                  // 2 floating point numbers (x,y) z = 0
 			GL_FLOAT,           // type
 			GL_FALSE,           // normalized?
 			5*sizeof(float),    // there are 5 numbers total, this uses first 2
 			(void*)0            // array buffer offset
 		);
 		glVertexAttribPointer(
-			1,                     // first parameter to shader, numbered 0
-			3,                     // 3 floating point numbers (x,y) z = 0
+			1,                     // 2nd parameter to shader, numbered 1
+			3,                     // 3 floating point numbers r,g,b
 			GL_FLOAT,              // all these values are float
 			GL_FALSE,              // normalized?
 			5*sizeof(float),       // there are 5 numbers total, this uses first 2
@@ -56,12 +56,14 @@ void glmain() {
 		glEnableVertexAttribArray(0); // pass x,y to shader
 		glEnableVertexAttribArray(1); // pass rgb to shader
 
-#if 0
-		glm::mat4 transform; // default should be identity matrix
-		transform = glm::scale(transform, glm::vec3(2,0.5,1));
+//#if 0
+		glm::mat4 transform = glm::identity<glm::mat4>(); // default should be identity matrix
+//		transform = glm::scale(transform, glm::vec3(2,0.5,1));
+		transform = glm::translate(transform, glm::vec3(0.5,0.5,0));
 		uint32_t matrixID = glGetUniformLocation(programID, "transform");
+		dump(transform);
 		glUniformMatrix4fv(matrixID, 1, GL_FALSE, &transform[0][0]);
-#endif
+//#endif
 		
 		// Draw the triangle !
 		glDrawArrays(GL_TRIANGLES, 0, 3); // 3 indices starting at 0 -> 1 triangle

@@ -6,10 +6,10 @@ ifeq ($(OS),Windows_NT)
 	LIBS	:= common.o -I/mingw64/include/GL -L/mingw64/lib -lOpenGL32 -lglfw3 -lglew32
 else
 	# assuming if not windows, then linux. This will break for unsupported OS or OS that does not declare properly. This will break on OSX.
-	LIBS	:= common.o -lglfw $(shell pkg-config --libs glew)
+	LIBS	:= common.o -lglfw $(shell pkg-config --libs glew) -lwebp
 endif
 
-all: bin/01window bin/02triangle bin/03gouraud bin/04transform bin/05sphere1 bin/06sphere2 bin/07visualizefunc
+all: bin/01window bin/02triangle bin/03gouraud bin/04transform bin/05sphere1 bin/06sphere2 bin/06b_sphere3 bin/07visualizefunc
 
 #this builds the single common object file used by all demos
 #which contains a standard main, loader for shaders,
@@ -33,6 +33,9 @@ bin/05sphere1: 05sphere1.cc Shape.hh Shape.cc common.o
 	$(COMP) $< Shape.cc -o $@ $(LIBS)
 
 bin/06sphere2: 06sphere2.cc Shape.hh Shape.cc common.o
+	$(COMP) $< Shape.cc -o $@ $(LIBS)
+
+bin/06b_sphere3: 06b_sphere3.cc Shape.hh Shape.cc common.o
 	$(COMP) $< Shape.cc -o $@ $(LIBS)
 
 
