@@ -3,13 +3,13 @@
 
 #include "opengl/Image.hh"
 #include "webp/decode.h"
-
+//#include "util/FileUtil.hh"
 using namespace std;
 
 void testImage(const char filename[]) {
   uint32_t len;
   uint8_t* p;
-  if (!readEntireFile(filename, &p, &len)) throw "error opening file";
+  if (readEntireFile(filename, &p, &len)) throw "error opening file";
 
   int w, h;
   int status = WebPGetInfo(p, len, &w, &h);
