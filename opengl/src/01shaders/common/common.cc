@@ -18,6 +18,117 @@ using namespace std;
 
 GLFWwindow* win = nullptr;
 
+
+void check_status( GLuint obj, bool isShader ) {
+    GLint status = GL_FALSE, log[ 1 << 11 ] = { 0 };
+    ( isShader ? glGetShaderiv : glGetProgramiv )( obj, isShader ? GL_COMPILE_STATUS : GL_LINK_STATUS, &status );
+    if( status == GL_TRUE ) return;
+    ( isShader ? glGetShaderInfoLog : glGetProgramInfoLog )( obj, sizeof( log ), NULL, (GLchar*)log );
+    std::cerr << (GLchar*)log << "\n";
+    std::exit( EXIT_FAILURE );
+}
+
+void attach_shader( GLuint program, GLenum type, const char* src ) {
+    GLuint shader = glCreateShader( type );
+    glShaderSource( shader, 1, &src, NULL );
+    glCompileShader( shader );
+    check_status( shader, true );
+    glAttachShader( program, shader );
+    glDeleteShader( shader );
+}
+
+// build a vertex and fragment shader program from constants in source code
+// this hardcoded version is provided for all the standard shaders that you want for common graphics
+// you can always load from files but I will build a number of the basic ones in here
+GLuint build_prog(const char vertex_shader[], const char fragment_shader[]) {
+    GLuint prog = glCreateProgram();
+    attach_shader( prog, GL_VERTEX_SHADER, vertex_shader );
+    attach_shader( prog, GL_FRAGMENT_SHADER, fragment_shader );
+    glLinkProgram( prog );
+    check_status( prog, false );
+	return prog;
+}
+
+const char* const vertex_shader_pervertex_ = 1 + R"GLSL(
+#version 330 core
+layout ( location = 0 ) in vec2 Position;
+layout ( location = 1 ) in vec3 Color;
+out VertexData
+{
+    vec3 Color;
+} vsOutput;
+void main()
+{
+    gl_Position = vec4( Position, 0.0, 1.0 );
+    vsOutput.Color = Color;
+}
+)GLSL";
+
+// this fragment shader can be used for any vertex shader that uses rgb colors stored per vertex
+const char* const frag_shader_common = 1 + R"GLSL(
+#version 330 core
+in VertexData
+{
+    vec3 Color;
+} fsInput;
+out vec4 outColor;
+void main()
+{
+    outColor = vec4( fsInput.Color, 1.0 );
+}
+)GLSL";
+
+
+// fragment shader for a textured material with lighting
+const char* const frag_shader_lighting = 1 + R"GLSL(
+#version 330
+
+in vec2 TexCoord0;
+in vec3 Normal0;
+
+out vec4 FragColor;
+
+struct DirectionalLight
+{
+    vec3 Color;
+    float AmbientIntensity;
+    float DiffuseIntensity;
+    vec3 Direction;
+};
+
+struct Material
+{
+    vec3 AmbientColor;
+    vec3 DiffuseColor;
+};
+
+uniform DirectionalLight gDirectionalLight;
+uniform Material gMaterial;
+uniform sampler2D gSampler;
+
+void main()
+{
+    vec4 AmbientColor = vec4(gDirectionalLight.Color, 1.0f) *
+                        gDirectionalLight.AmbientIntensity *
+                        vec4(gMaterial.AmbientColor, 1.0f);
+
+    float DiffuseFactor = dot(normalize(Normal0), -gDirectionalLight.Direction);
+
+    vec4 DiffuseColor = vec4(0, 0, 0, 0);
+
+    if (DiffuseFactor > 0) {
+        DiffuseColor = vec4(gDirectionalLight.Color, 1.0f) *
+                       gDirectionalLight.DiffuseIntensity *
+                       vec4(gMaterial.DiffuseColor, 1.0f) *
+                       DiffuseFactor;
+    }
+
+    FragColor = texture(gSampler, TexCoord0.xy) *
+                (AmbientColor + DiffuseColor);
+}
+)GLSL";
+
+
 GLuint loadShaders(const char vertexPath[], const char * fragmentPath) {
 	// Create the shaders
 	GLuint VertexShaderID = glCreateShader(GL_VERTEX_SHADER);

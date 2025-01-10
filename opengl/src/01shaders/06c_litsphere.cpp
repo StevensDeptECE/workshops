@@ -3,9 +3,9 @@
     Author: Dov Kruger
     Date: 2025-01-07
 
-    Load a webp cylindrical projection of earth and map to the sphere
-    Tilt earth axis to 23.5 degrees and rotate
-    Allow speedup and slowdown with keystrokes
+    Add lighting to the 06b_sphere3
+    Using the lighting_technique.cpp code from Etay Meiri's demos
+
 */
 #include <GL/glew.h>
 #include "common/common.hh"
@@ -19,7 +19,6 @@
 using namespace std;
 using namespace glm;
 using namespace std::numbers;
-constexpr double PI = numbers::pi;
 
 class Sphere {
 private:
@@ -49,9 +48,9 @@ Sphere::Sphere(double r, uint32_t latRes, uint32_t lonRes) : latRes(latRes), lon
     resolution((2*latRes-1)*lonRes + 2) {
     progid = loadShaders("06b_texturepoints.vert", "06b_textures.frag");
 //    progid = loadShaders("03gouraud.vert", "03gouraud.frag");
-    double dlon = 2.0*PI / lonRes, dlat = PI / (2*latRes);
+    double dlon = 2.0*numbers::pi / lonRes, dlat = numbers::pi / (2*latRes);
     double z;
-    double lat = -PI/2 + dlat; // latitude in radians
+    double lat = -numbers::pi/2 + dlat; // latitude in radians
     double rcircle;
     float vert[resolution*5]; // x,y,z,u,v
     uint32_t c = 0;
@@ -67,8 +66,9 @@ Sphere::Sphere(double r, uint32_t latRes, uint32_t lonRes) : latRes(latRes), lon
             vert[c++] = rcircle * sin(t);
                 cout << '(' << vert[c-2] << ", " << vert[c-1] << ")  ";
             vert[c++] = z;
-            vert[c++] = t / (2.0 * PI); // Correct u mapping
-            vert[c++] = (lat + PI / 2.0) / PI; // Correct v mapping
+            
+            vert[c++] = 0.5 + 0.5 * cos(t) / lonRes;
+            vert[c++] = 0.5 - 0.5 * sin(t) / lonRes;
         }
         cout << endl;
     }
@@ -77,31 +77,31 @@ Sphere::Sphere(double r, uint32_t latRes, uint32_t lonRes) : latRes(latRes), lon
     vert[c++] = 0;
     vert[c++] = -r;
     vert[c++] = 0.5;
-    vert[c++] = 0;
+    vert[c++] = 0.5;
 
     // north pole
     vert[c++] = 0;
     vert[c++] = 0;
     vert[c++] = r;
     vert[c++] = 0.5;
-    vert[c++] = 1;
+    vert[c++] = 0.5;
 
     cout << "resolution: " << resolution << endl;
     cout << "predicted num vert components: " << resolution*5 << endl;  
     cout << "actual num vert components: " << c << endl;
 
-    indexSize = resolution * 2;// + (2*latRes-1) + lonRes; 
+    indexSize = resolution * 2 + (2*latRes-1) + lonRes; 
     //TODO: North and South Poles aren't used
     uint32_t indices[indexSize]; // connect every point in circles or latitude and longitude
     c = 0;
     for (uint32_t j = 0; j < 2*latRes - 2; j++) {
-        uint32_t startrow = j*lonRes;
         for (uint32_t i = 0; i < lonRes; i++) {
-            indices[c++] = startrow + i;
-            indices[c++] = startrow + lonRes + i;
+            uint32_t current = j * lonRes + i;
+            uint32_t next = (j + 1) * lonRes + i;
+
+            indices[c++] = current;
+            indices[c++] = next;
         }
-        indices[c++] = startrow;
-        indices[c++] = startrow + lonRes;
         // Add degenerate triangles to connect strips
         indices[c++] = (j + 1) * lonRes + (lonRes - 1);
         indices[c++] = (j + 1) * lonRes;
@@ -144,7 +144,7 @@ void Sphere::render(mat4& trans, GLuint textureID) {
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
 
-    glDrawElements(GL_TRIANGLE_STRIP, indexSize, GL_UNSIGNED_INT, 0);
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, resolution);
 
     glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);
@@ -166,16 +166,16 @@ void glmain() {
 
     glClearColor(0.0f, 0.0f, 0.4f, 0.0f);	// Dark blue background
     GLuint textureID = loadWebPTexture("earth.webp"); // Load the texture
-    Sphere sphere(1.0, 20, 30);
+    Sphere sphere(1.0, 7, 10);
     float rotAngle = 0, dRotAngle = 0.0052;
-    mat4 northup = rotate(mat4(1.0f), float(PI/2), vec3(1, 0, 0));
+    mat4 northup = rotate(mat4(1.0f), float(-numbers::pi/4), vec3(1, 0, 0));
 
 //    mat4 northup = mat4(1.0f);
 
     vec3 up(0, 1, 0);    // normal OpenGL coordinates, x positive to right, y is up (z positive out of screen)
     do {
-        mat trans = rotate(northup, radians(23.5f), vec3(0, 1, 0)); // tilt axis
-        trans = rotate(trans, rotAngle, vec3(0, 0, 1)); // spin on axis
+        mat trans = rotate(northup, radians(23.5f), vec3(0, 0, 1)); // tilt axis
+        trans = rotate(trans, rotAngle, vec3(0, 1, 0)); // spin on axis
         rotAngle += dRotAngle;
 
         glClear(GL_COLOR_BUFFER_BIT);  	// Clear the screen
