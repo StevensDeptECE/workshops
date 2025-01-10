@@ -17,7 +17,7 @@
 */
 
 #include "lighting_technique.h"
-
+#include "common/common.hh"
 
 LightingTechnique::LightingTechnique()
 {
@@ -28,18 +28,7 @@ bool LightingTechnique::Init()
     if (!Technique::Init()) {
         return false;
     }
-
-    if (!AddShader(GL_VERTEX_SHADER, "lighting.vs")) {
-        return false;
-    }
-
-    if (!AddShader(GL_FRAGMENT_SHADER, "lighting.fs")) {
-        return false;
-    }
-
-    if (!Finalize()) {
-        return false;
-    }
+    GLuint lightingid = build_prog("lighting.vs", "lighting.fs");
 
     WVPLoc = GetUniformLocation("gWVP");
     samplerLoc = GetUniformLocation("gSampler");
@@ -59,8 +48,7 @@ bool LightingTechnique::Init()
     return true;
 }
 
-void LightingTechnique::SetWVP(const Matrix4f& WVP)
-{
+void LightingTechnique::SetWVP(const Matrix4f& WVP) {
     glUniformMatrix4fv(WVPLoc, 1, GL_TRUE, (const GLfloat*)WVP.m);
 }
 
@@ -73,10 +61,10 @@ void LightingTechnique::SetTextureUnit(unsigned int TextureUnit)
 
 void LightingTechnique::SetLight(const BaseLight& light) {
     glUniform3f(lightColorLoc, light.color.r, light.color.g, light.color.b);
-    glUniform1f(lightAmbientIntensityLoc, light.AmbientIntensity);
+    glUniform1f(lightAmbientIntensityLoc, light.ambient_intensity);
 }
 
 
 void LightingTechnique::SetMaterial(const Material& material) {
-    glUniform3f(materialAmbientColorLoc, material.AmbientColor.r, material.AmbientColor.g, material.AmbientColor.b);
+    glUniform3f(materialAmbientColorLoc, material.ambient_color.r, material.ambient_color.g, material.ambient_color.b);
 }

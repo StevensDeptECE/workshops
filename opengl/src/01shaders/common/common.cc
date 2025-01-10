@@ -23,7 +23,7 @@ void check_status( GLuint obj, bool isShader ) {
     GLint status = GL_FALSE, log[ 1 << 11 ] = { 0 };
     ( isShader ? glGetShaderiv : glGetProgramiv )( obj, isShader ? GL_COMPILE_STATUS : GL_LINK_STATUS, &status );
     if( status == GL_TRUE ) return;
-    ( isShader ? glGetShaderInfoLog : glGetProgramInfoLog )( obj, sizeof( log ), NULL, (GLchar*)log );
+    ( isShader ? glGetShaderInfoLog : glGetProgramInfoLog )( obj, sizeof( log ), nullptr, (GLchar*)log );
     std::cerr << (GLchar*)log << "\n";
     std::exit( EXIT_FAILURE );
 }

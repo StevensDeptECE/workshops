@@ -19,6 +19,7 @@
 #include <stdio.h>
 #include <string>
 
+#include "common/common.hh"
 #include "technique.h"
 using namespace std;
 Technique::Technique() {
@@ -89,7 +90,7 @@ bool Technique::Finalize()
 
 //    PrintUniformList();
 
-    return GLCheckError();
+    return glGetError() == GL_NO_ERROR;
 }
 
 

@@ -20,3 +20,6 @@ int main(int argc, char* argv[]);
 void dump(glm::mat4& mat);
 void transpt(glm::mat4& m, double x, double y, double z);
 GLuint loadWebPTexture(const char* filePath);
+GLuint build_prog(const char vertex_shader[], const char fragment_shader[]);
+
+const uint32_t INVALID_UNIFORM_LOCATION = 0xFFFFFFFF;
