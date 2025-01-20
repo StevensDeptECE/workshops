@@ -90,7 +90,7 @@ Sphere::Sphere(double r, uint32_t latRes, uint32_t lonRes) : latRes(latRes), lon
     cout << "predicted num vert components: " << resolution*5 << endl;  
     cout << "actual num vert components: " << c << endl;
 
-    indexSize = resolution * 2;// + (2*latRes-1) + lonRes; 
+    indexSize = resolution * 2 + (2*4*latRes-1); 
     //TODO: North and South Poles aren't used
     uint32_t indices[indexSize]; // connect every point in circles or latitude and longitude
     c = 0;
@@ -103,12 +103,15 @@ Sphere::Sphere(double r, uint32_t latRes, uint32_t lonRes) : latRes(latRes), lon
         indices[c++] = startrow;
         indices[c++] = startrow + lonRes;
         // Add degenerate triangles to connect strips
-        indices[c++] = (j + 1) * lonRes + (lonRes - 1);
+//        indices[c++] = (j + 1) * lonRes + (lonRes - 1);
+//        indices[c++] = (j + 1) * lonRes;
+        indices[c++] = (j + 1) * lonRes;
         indices[c++] = (j + 1) * lonRes;
     }
-    cout << "predicted grid points: " << indexSize << endl;
+    cout << "indexSize: " << indexSize << endl;
     cout << "actual grid indices: " << c << endl;
 
+    indexSize = c; // not sure why the computaiton is off...
     // Print index data
     cout << "Index data: " ;
     for (size_t i = 0; i < indexSize; i += 2) {
