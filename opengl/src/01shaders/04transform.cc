@@ -3,6 +3,7 @@
 
 using namespace std;
 
+float RAD2DEG(float x) { return x * (180 / M_PI); }
 void glmain() {
 	win = createWindow(1000, 800, "Transform triangle demo");
 
@@ -28,10 +29,11 @@ void glmain() {
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 	glBindVertexArray(0); // we aren't working with vao any more
 
+	float a = 0;
 	do {
 		glClear( GL_COLOR_BUFFER_BIT );  	// Clear the screen
 		glUseProgram(programID);      		// Use our shader
-  	glBindVertexArray(vao);           // draw using vao and its vbo, and anything else inside it
+	  	glBindVertexArray(vao);           // draw using vao and its vbo, and anything else inside it
 
 		// 1st attribute buffer : vertices
 	//	glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -59,7 +61,8 @@ void glmain() {
 //#if 0
 		glm::mat4 transform = glm::identity<glm::mat4>(); // default should be identity matrix
 //		transform = glm::scale(transform, glm::vec3(2,0.5,1));
-		transform = glm::translate(transform, glm::vec3(0.5,0.5,0));
+//		transform = glm::translate(transform, glm::vec3(0.5,0.5,0));
+		transform = glm::rotate(transform, RAD2DEG(a), glm::vec3(0,1,0));
 		uint32_t matrixID = glGetUniformLocation(programID, "transform");
 		dump(transform);
 		glUniformMatrix4fv(matrixID, 1, GL_FALSE, &transform[0][0]);
@@ -74,7 +77,7 @@ void glmain() {
 
 		glfwSwapBuffers(win); // double buffer
 		glfwPollEvents();
-
+		a += .0001;
 	}	while( glfwGetKey(win, GLFW_KEY_ESCAPE ) != GLFW_PRESS &&
 		   glfwWindowShouldClose(win) == 0 );
 

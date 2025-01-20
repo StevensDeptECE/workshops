@@ -335,3 +335,9 @@ GLuint loadWebPTexture(const char* filePath) {
 
     return textureID;
 }
+
+void transform_dump(glm::mat4& mat, double x, double y, double z) {
+    glm::vec4 point = glm::vec4(x, y, z, 1.0f);
+    glm::vec4 tp = mat * point;
+    cerr << "Transformed point: (" << tp.x << ", " << tp.y << ", " << tp.z << ")\n";
+}

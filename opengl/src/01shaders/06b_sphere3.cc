@@ -144,6 +144,7 @@ void Sphere::render(mat4& trans, GLuint textureID) {
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
 
+//    glDrawArrays(GL_TRIANGLE_STRIP, 0, resolution);
     glDrawElements(GL_TRIANGLE_STRIP, indexSize, GL_UNSIGNED_INT, 0);
 
     glDisableVertexAttribArray(0);

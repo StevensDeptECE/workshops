@@ -9,7 +9,9 @@ else
 	LIBS	:= common.o -lglfw $(shell pkg-config --libs glew) -lwebp
 endif
 
-all: bin/01window bin/02triangle bin/03gouraud bin/04transform bin/05sphere1 bin/06sphere2 bin/06b_sphere3 bin/06c_litsphere bin/07visualizefunc
+all: bin/01window bin/02triangle bin/03gouraud \
+	bin/04transform bin/04b_input2 bin/04c_projection bin/05sphere1 \
+	bin/06sphere2 bin/06b_sphere3 bin/06c_litsphere bin/07visualizefunc
 
 #this builds the single common object file used by all demos
 #which contains a standard main, loader for shaders,
@@ -29,6 +31,12 @@ bin/03gouraud: 03gouraud.cc common.o
 bin/04transform: 04transform.cc common.o
 	$(COMP) $< -o $@ $(LIBS)
 
+bin/04b_input2: 04b_input2.cc common.o
+	$(COMP) $< -o $@ $(LIBS)
+
+bin/04c_projection: 04c_projection.cc common.o
+	$(COMP) $< -o $@ $(LIBS)
+
 bin/05sphere1: 05sphere1.cc Shape.hh Shape.cc common.o
 	$(COMP) $< Shape.cc -o $@ $(LIBS)
 
@@ -46,6 +54,9 @@ bin/07visualizefunc:  07visualizefunc.cc  common.o
 
 #bin/08lights: 08lights.cc common.o
 #	$(COMP) $< -o $@ $(LIBS)
+
+bin/input2: input2.cpp
+	$(COMP) $< -o $@ $(LIBS) -lglut
 
 clean:
 	rm bin/*

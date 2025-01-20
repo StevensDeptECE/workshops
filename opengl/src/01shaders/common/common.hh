@@ -19,7 +19,27 @@ void glmain();
 int main(int argc, char* argv[]);
 void dump(glm::mat4& mat);
 void transpt(glm::mat4& m, double x, double y, double z);
+void transform_dump(glm::mat4& mat, double x, double y, double z);
 GLuint loadWebPTexture(const char* filePath);
 GLuint build_prog(const char vertex_shader[], const char fragment_shader[]);
 
 const uint32_t INVALID_UNIFORM_LOCATION = 0xFFFFFFFF;
+
+
+// TODO: perhaps each function should have a hardcoded, prebuilt shader program
+/*
+  generically rednder a textured object composed of a VAO, containing a vertex buffer, an index buffer,
+   a texture, and a texture unit
+*/
+void render_textured_indexed(GLuint program, GLuint vao, GLuint vert, GLuint index, GLuint texture);
+
+/*
+  generically rednder a textured object composed of a VAO, containing a vertex buffer with a color per vertex,
+   an index buffer,
+*/
+void render_indexed_colored(GLuint program, GLuint vao, GLuint vert, GLuint index);
+
+/*
+	generically render a surface composed of a VAO, containing a vertex buffer with a value per vertex looking up in a 1D-texture	
+*/
+void render_indexed_heatmap(GLuint program, GLuint vao, GLuint vert, GLuint index, GLuint texture);
